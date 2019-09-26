@@ -3,3 +3,19 @@
 script/railss31010.sh
 
 Gemfile
+
+routes.rb
+
+public/ assets
+
+assets in app/assets/?
+
+app/models
+app/controllers
+app/views
+
+heroku create tsds4
+
+
+
+
