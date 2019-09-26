@@ -1,3 +1,5 @@
 ~/repos/tsds4new/public/todo2019_0926.txt
 
 script/railss31010.sh
+
+Gemfile
