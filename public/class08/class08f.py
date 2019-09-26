@@ -1,0 +1,118 @@
+"""
+class08f.py
+
+This script should Create DataFrame column named longonly_accuracy and fill it
+Ref:
+http://www.tsds4.us/cclasses/class08#lab
+
+ * The previous lab makes this lab easy.
+ * Also the logic of longonly_accuracy is simple.
+ * If pctlead > 0.0 then longonly_accuracy is True Positive.
+ * If pctlead <= 0.0 then longonly_accuracy is False Positive.
+
+Demo:
+python class08f.py
+"""
+
+import pandas as pd
+import numpy  as np
+
+allpredictions_df = pd.read_csv('allpredictions.csv')
+datepp_df         = allpredictions_df[['cdate','cp','prob_lr']]
+
+# I should use NumPy to compute pct-lead for each cp.
+
+cp_a              = np.array(datepp_df['cp'])
+# I should get the last element, copy it, append it:
+last_elem_a       = cp_a[-1:]
+lead_1toolong_a   = np.append(cp_a,last_elem_a)
+# That is too long; I remove first element:
+lead_a            = lead_1toolong_a[1:]
+# I should test:
+len(cp_a) == len(lead_a) # should be True
+
+# I should use arithmetic:
+pctlead_a = 100.0 * (lead_a - cp_a) / cp_a
+# If this were JavaScript, I'd need to use a loop here.
+
+# I should create a DataFrame with four columns:
+dateppl_df            = datepp_df.copy() # first 3 columns
+dateppl_df['pctlead'] = list(pctlead_a) # 4th
+
+#
+# Create DataFrame column named accuracy and fill it
+# ########################################################
+
+# Create a predicate to give me all positive predictions:
+
+posp_sr = (dateppl_df['prob_lr'] >= 0.5)
+
+# Create a predicate to give me all positive pctlead values
+
+posl_sr = (dateppl_df['pctlead'] >= 0.0)
+
+# I should get True Positives
+tp_sr = posp_sr & posl_sr
+# I should get True Negatives
+tn_sr = (-posp_sr) & (-posl_sr)
+
+# I should get False Positives
+fp_sr = posp_sr & (-posl_sr)
+# I should get False Negatives
+fn_sr = (-posp_sr) & posl_sr
+
+dateppla_df = dateppl_df.copy()
+
+# I should initialize accuracy-column to be 'unknown':
+dateppla_df['accuracy'] = ['unknown']*len(dateppla_df)
+
+unk_sr = (dateppla_df['accuracy'] == 'unknown')
+len(unk_sr) == len(dateppla_df) # Should be True
+
+# I should copy accuracy indicators into DataFrame:
+dateppla_df.loc[tp_sr,'accuracy'] = 'True Positive'
+dateppla_df.loc[tn_sr,'accuracy'] = 'True Negative'
+
+dateppla_df.loc[fp_sr,'accuracy'] = 'False Positive'
+dateppla_df.loc[fn_sr,'accuracy'] = 'False Negative'
+
+# The unknowns should be known now:
+unk_sr = (dateppla_df['accuracy'] == 'unknown')
+np.sum([int(bool) for bool in unk_sr]) == 0 # Should be true
+
+# I should look at it:
+print(dateppla_df[-22:])
+
+#
+# Create DataFrame column named effectiveness and fill it
+# ########################################################
+
+datepplae_df = dateppla_df.copy()
+
+# Main idea here; use or-operator to collect True predictions:
+true_sr = (tp_sr | tn_sr)
+
+# Convert True predictions into a list of +1 or -1 values:
+true_is1_l = [ 1 if tf else -1 for tf in true_sr ]
+
+# I should collect absolute-value of pctlead values:
+abs_pctlead_a = np.array(np.abs(datepplae_df['pctlead']))
+
+# It is effective if true and abs(pctlead) is large:
+effectiveness_a = true_is1_l * abs_pctlead_a
+
+# I should add it to the DF so I can see it:
+datepplae_df['effectiveness'] = list(effectiveness_a)
+
+print(datepplae_df[-22:])
+
+#
+# Create DataFrame column named longonly_accuracy and fill it
+# ############################################################
+
+longonly_accuracy_l = ['True Positive' if pl > 0.0 else 'False Positive' for pl in pctlead_a]
+datepplael_df       = datepplae_df.copy()
+datepplael_df['longonly_accuracy'] = longonly_accuracy_l
+print(datepplael_df[-22:])
+
+'bye'

@@ -1,0 +1,30 @@
+# linreg.r
+
+# This script should do linear regression.
+# Demo:
+# R -f linreg.r
+
+# As of today, allpredictions.csv contains 8955 rows.
+# 8900 - 2600 is 6300 is 6300 days is 25 years.
+# I should learn from 25 years of data:
+csv_l = read.csv('http://www.spy611.com/csv/allpredictions.csv')[c(2600:8900) , ]
+
+# Now I should learn:
+mymodel = lm(pctlead ~ pctlag1 + pctlag2 + pctlag4 + pctlag8 + pctlag16, data=csv_l)
+mymodel
+# The above model assumes that pctlead relies somewhat on pctlag1,2,4,8,16
+
+# Now I should predict one observation (quiet day):
+just1x = list(pctlag1=0.001,pctlag2=0.001,pctlag4=0.001,pctlag8=0.001,pctlag16=0.001)
+pctlead_prediction = predict(mymodel,just1x)
+pctlead_prediction
+
+# Now I should predict one observation (strong down day):
+just1x = list(pctlag1=-2.1,pctlag2=-2.2,pctlag4=-2.4,pctlag8=-2.8,pctlag16=-2.16)
+pctlead_prediction = predict(mymodel,just1x)
+pctlead_prediction
+
+# Now I should predict one observation (strong up day):
+just1x = list(pctlag1=2.1,pctlag2=2.2,pctlag4=2.4,pctlag8=2.8,pctlag16=2.16)
+pctlead_prediction = predict(mymodel,just1x)
+pctlead_prediction

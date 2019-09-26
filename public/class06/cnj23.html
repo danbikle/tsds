@@ -1,0 +1,113 @@
+<html>
+  <h1>cnj23.html</h1>
+  <hr />
+  The JavaScript in this page should issue predictions for observations in allpredictions.js.
+  <br />
+  You should use the debugger in the browser to interact with the JavaScript in this page.
+  <hr />
+  <script src="allpredictions.js"></script>
+
+  <script src="d3.v4.js"></script>
+
+  <script src="convnet_init.js"></script>
+  <script src="convnet_util.js" ></script>
+  <script src="convnet_vol.js" ></script>
+  <script src="convnet_vol_util.js" ></script>
+  <script src="convnet_layers_dotproducts.js" ></script>
+  <script src="convnet_layers_pool.js" ></script>
+  <script src="convnet_layers_input.js" ></script>
+  <script src="convnet_layers_loss.js" ></script>
+  <script src="convnet_layers_nonlinearities.js" ></script>
+  <script src="convnet_layers_dropout.js" ></script>
+  <script src="convnet_layers_normalization.js" ></script>
+  <script src="convnet_net.js" ></script>
+  <script src="convnet_trainers.js" ></script>
+  <script src="convnet_magicnet.js" ></script>
+  <script src="convnet_export.js" ></script>
+  <script>
+    
+    // Features:
+    // pctlag1,2,4,8,16
+    var fnum_i     = 5 // Number of features
+    // http://cs.stanford.edu/people/karpathy/convnetjs/started.html
+    var layer_defs = []
+    // input layer of size 1x1xfnum_i (all volumes are 3D)
+    layer_defs.push({type:'input', out_sx:1, out_sy:1, out_depth:fnum_i})
+    // A middle layer:
+    layer_defs.push({type:'fc', num_neurons:5, activation:'relu'})
+    // a softmax classifier predicting probabilities for two classes: 0,1
+    layer_defs.push({type:'softmax', num_classes:2})
+    // I should build a net from above layers:
+    var net = new convnetjs.Net()
+    net.makeLayers(layer_defs)
+    // ref:
+    // http://cs.stanford.edu/people/karpathy/convnetjs/docs.html
+    // var trainer = new convnetjs.Trainer(net, {learning_rate:0.01, l2_decay:0.001})
+    var trainer = new convnetjs.Trainer(net, {method:'adadelta', l2_decay:0.001, batch_size:10})
+
+    /*
+    AK: To train on an actual dataset, you simply loop through all your
+    points repeatedly and backpropagate their true class through
+    the network, which gradually adjusts its weights to make your
+    predictions more likely.
+    */
+
+    /* The allpredictions.js file gives me a giant string called mycsv_s.
+       I use D3.js to transform mycsv_s into an array called: mycsv_a.
+    */
+    var mycsv_a  = d3.csvParse(mycsv_s)
+    // I should learn from random observations between 6900 to 8900
+    start_i         = 6900
+    end_i           = start_i + 2000
+    for (var pass_i = 0; pass_i < 1234567; pass_i++) {
+      row_i     = convnetjs.randi(end_i,start_i)
+      var row   = mycsv_a[row_i]
+      var row_a = [+row.pctlag1, +row.pctlag2, +row.pctlag4, +row.pctlag8, +row.pctlag16]
+      var obs_v = new convnetjs.Vol(row_a)
+      // I should train the net with info that obs_v has class 0 or 1:
+      if (+row.pctlead < 0) {
+        trainer.train(obs_v, 0)
+      } else {
+        trainer.train(obs_v, 1)
+      }
+    }
+
+    // I should test from observations 8900 to end
+    var predictions_a = []
+    var eff_sum_f     = 0.0 // Simple effectiveness metric.
+    var lo_eff_sum_f  = 0.0 // Metric to beat.
+    var acc_sum_i     = 0   // Simple Accuracy metric.
+    var lo_acc_sum_i  = 0   // Long Only Accuracy metric.
+    var obs_i         = 0
+    for (var cntr_i   = 8900;cntr_i< mycsv_a.length; cntr_i++) {
+      obs_i    += 1
+      var row   = mycsv_a[cntr_i]
+      var row_a = [+row.pctlag1, +row.pctlag2, +row.pctlag4, +row.pctlag8, +row.pctlag16]
+      var obs_v = new convnetjs.Vol(row_a)
+      // I should predict:
+      var prediction_f = net.forward(obs_v).w[1]
+      predictions_a.push([prediction_f,+row.pctlag1,+row.pctlead])
+      lo_eff_sum_f +=  +row.pctlead
+      var eff_f     = (+row.pctlead * Math.sign(prediction_f - 0.5))
+      eff_sum_f    += eff_f 
+      if (eff_f > 0.0) {
+        acc_sum_i += 1
+      }
+      if (+row.pctlead > 0.0) {
+        lo_acc_sum_i += 1
+      }
+    }
+    // Predictions:
+    predictions_a
+    // This is my effectiveness metric. Hopefully eff_sum_f > lo_eff_sum_f
+    console.log(eff_sum_f)
+    // Long Only Effectiveness:
+    console.log(lo_eff_sum_f)
+    // Accuracy:
+    console.log(100.0 * acc_sum_i    / obs_i)
+    console.log(100.0 * lo_acc_sum_i / obs_i)
+    // 2 * trues - all:
+    console.log(2 *    acc_sum_i - obs_i)
+    console.log(2 * lo_acc_sum_i - obs_i)
+  </script>
+</html>
