@@ -14,6 +14,8 @@ app/models
 app/controllers
 app/views
 
+script/railss31010.sh
+
 heroku create tsds4
 
 
