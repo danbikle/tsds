@@ -1,0 +1,232 @@
+<code class='bash'>
+# class08m.py
+
+# This script should help me do the lab of class08.
+# Ref:
+# http://www.tsds4.us/cclasses/class08#lab
+
+# Demo:
+# python class08m.py
+
+import pandas as pd
+import numpy  as np
+
+allpredictions_df = pd.read_csv('allpredictions.csv')
+datepp_df         = allpredictions_df[['cdate','cp','prob_lr']]
+
+# I should use NumPy to compute pct-lead for each cp.
+
+cp_a              = np.array(datepp_df['cp'])
+# I should get the last element, copy it, append it:
+last_elem_a       = cp_a[-1:]
+lead_1toolong_a   = np.append(cp_a,last_elem_a)
+# That is too long; I remove first element:
+lead_a            = lead_1toolong_a[1:]
+# I should test:
+len(cp_a) == len(lead_a) # should be True
+
+# I should use arithmetic:
+pctlead_a = 100.0 * (lead_a - cp_a) / cp_a
+# If this were JavaScript, I'd need to use a loop here.
+
+# I should create a DataFrame with four columns:
+dateppl_df            = datepp_df.copy() # first 3 columns
+dateppl_df['pctlead'] = list(pctlead_a) # 4th
+
+#
+# Create DataFrame column named accuracy and fill it
+# ########################################################
+
+# Create a predicate to give me all positive predictions:
+
+posp_sr = (dateppl_df['prob_lr'] >= 0.5)
+
+# Create a predicate to give me all positive pctlead values
+
+posl_sr = (dateppl_df['pctlead'] >= 0.0)
+
+# I should get True Positives
+tp_sr = posp_sr & posl_sr
+# I should get True Negatives
+tn_sr = (-posp_sr) & (-posl_sr)
+
+# I should get False Positives
+fp_sr = posp_sr & (-posl_sr)
+# I should get False Negatives
+fn_sr = (-posp_sr) & posl_sr
+
+dateppla_df = dateppl_df.copy()
+
+# I should initialize accuracy-column to be 'unknown':
+dateppla_df['accuracy'] = ['unknown']*len(dateppla_df)
+
+unk_sr = (dateppla_df['accuracy'] == 'unknown')
+len(unk_sr) == len(dateppla_df) # Should be True
+
+# I should copy accuracy indicators into DataFrame:
+dateppla_df.loc[tp_sr,'accuracy'] = 'True Positive'
+dateppla_df.loc[tn_sr,'accuracy'] = 'True Negative'
+
+dateppla_df.loc[fp_sr,'accuracy'] = 'False Positive'
+dateppla_df.loc[fn_sr,'accuracy'] = 'False Negative'
+
+# The unknowns should be known now:
+unk_sr = (dateppla_df['accuracy'] == 'unknown')
+np.sum([int(bool) for bool in unk_sr]) == 0 # Should be true
+
+# I should look at it:
+print(dateppla_df[-22:])
+
+#
+# Create DataFrame column named effectiveness and fill it
+# ########################################################
+
+datepplae_df = dateppla_df.copy()
+
+# Main idea here; use or-operator to collect True predictions:
+true_sr = (tp_sr | tn_sr)
+
+# Convert True predictions into a list of +1 or -1 values:
+true_is1_l = [ 1 if tf else -1 for tf in true_sr ]
+
+# I should collect absolute-value of pctlead values:
+abs_pctlead_a = np.array(np.abs(datepplae_df['pctlead']))
+
+# It is effective if true and abs(pctlead) is large:
+effectiveness_a = true_is1_l * abs_pctlead_a
+
+# I should add it to the DF so I can see it:
+datepplae_df['effectiveness'] = list(effectiveness_a)
+
+print(datepplae_df[-22:])
+
+#
+# Create DataFrame column named longonly_accuracy and fill it
+# ############################################################
+
+longonly_accuracy_l = ['True Positive' if pl > 0.0 else 'False Positive' for pl in pctlead_a]
+datepplael_df       = datepplae_df.copy()
+datepplael_df['longonly_accuracy'] = longonly_accuracy_l
+print(datepplael_df[-22:])
+
+#
+# Create DataFrame column named longonly_effectiveness and fill it
+# #################################################################
+datepplaele_df                           = datepplael_df.copy()
+datepplaele_df['longonly_effectiveness'] = datepplaele_df['pctlead']
+print(datepplaele_df[-22:])
+
+#
+#  For 2016, report on aggregated Accuracy
+# #################################################################
+
+# I should start this effort by creating a DF from 2016 data.
+
+y2016_sr = (datepplaele_df['cdate'] > '2016') & (datepplaele_df['cdate'] &lt; '2017')
+y2016_df = datepplaele_df[y2016_sr]
+
+# I should count all predictions.
+allp_count_i = len(y2016_df)
+
+# For long-only, I should count all the true-negative and all false-negative predictions.
+# Well, that is easy.
+# By definition a long-only prediciton is a positive prediction.
+lo_tn_count = 0
+lo_fn_count = 0
+
+# For long-only, I should count all the true-positive predictions:
+lo_tp_sr   = (y2016_df['longonly_accuracy'] == 'True Positive')
+# I should aggregate:
+lo_tp_i    = len([ 1 for tf in lo_tp_sr if tf ])
+lo_agg_acc = np.round(100.0 * lo_tp_i / allp_count_i)
+print('For 2016, Aggregated Long-Only Accuracy is:')
+print(str(lo_agg_acc)+'%')
+
+# For LR, I should count all the true-positive and true-negative predictions:
+lr_tp_sr = (y2016_df['accuracy'] == 'True Positive')
+lr_tn_sr = (y2016_df['accuracy'] == 'True Negative')
+lr_tp_i  = len([ 1 for tf in lr_tp_sr if tf ])
+lr_tn_i  = len([ 1 for tf in lr_tn_sr if tf ])
+
+lr_agg_acc = np.round(100.0 * (lr_tp_i + lr_tn_i) / allp_count_i)
+print('For 2016, Aggregated Logistic Regression Accuracy is:')
+print(str(lr_agg_acc)+'%')
+
+# For LR, I should count the positive predictions:
+posp2016_sr = (y2016_df['prob_lr'] >= 0.5)
+lr_posp_i   = len([ 1 for tf in posp2016_sr if tf ])
+# I should aggregate:
+lr_posp_f   = np.round(100.0 * lr_posp_i / allp_count_i)
+print('For 2016, Logistic Regression issued Positive Predictions:')
+print(str(lr_posp_f)+'% of the time')
+
+# For LR, I should display the confusion matrix:
+lr_fp_sr = (y2016_df['accuracy'] == 'False Positive')
+lr_fn_sr = (y2016_df['accuracy'] == 'False Negative')
+lr_fp_i  = len([ 1 for tf in lr_fp_sr if tf ])
+lr_fn_i  = len([ 1 for tf in lr_fn_sr if tf ])
+print('For 2016, Logistic Regression Confusion Matrix:')
+print('True Positives Count: '  + str(lr_tp_i) + '|' + 'False Positives Count: ' + str(lr_fp_i))
+print('False Negatives Count: ' + str(lr_fn_i) + '|' + 'True Negatives Count: '  + str(lr_tn_i))
+
+#
+# For 2016, report on aggregated Effectiveness
+# #################################################################
+# I report by computing min, max, mean, median, and sum.
+# I prefer to use sum to compare Long-Only to Logistic Regression.
+
+long_only_effectiveness_desc = y2016_df['longonly_effectiveness'].describe()
+long_only_effectiveness_sum  = np.sum(y2016_df['longonly_effectiveness'])
+
+lr_effectiveness_desc = y2016_df['effectiveness'].describe()
+lr_effectiveness_sum  = np.sum(y2016_df['effectiveness'])
+
+print('2016 Long Only Aggregated Effectiveness:')
+print(long_only_effectiveness_desc)
+
+print('2016 Logistic Regression Aggregated Effectiveness:')
+print(lr_effectiveness_desc)
+
+print('2016 Long Only Effectiveness Sum:')
+print(long_only_effectiveness_sum)
+
+print('2016 Logistic Regression Effectiveness Sum:')
+print(lr_effectiveness_sum)
+
+#
+# For 2016, Build Blue-Green Visualization for Logistic Regression
+###############################################################################
+
+# I should get a list of dates:
+from datetime import datetime
+cdate_l = [datetime.strptime(dt_s,'%Y-%m-%d') for dt_s in y2016_df['cdate']]
+len_i   = len(cdate_l)
+import pdb
+# I should get list of cp to help build blue line:
+blue_l = [ cp_f for cp_f in y2016_df['cp'] ]
+
+# I should build the green data; it should start at same place as blue data:
+green_l = [blue_l[0]]
+eff_i   = 0  # Integer navigator.
+
+for eff_f in y2016_df['effectiveness']:
+  if eff_i < len_i-1:
+    eff_i += 1 # I should track where I am.
+    # I should track blue_line delta:
+    blue_delt_f = np.abs(blue_l[eff_i] - blue_l[eff_i-1])
+    # I should add to the green line:
+    if eff_f > 0:
+      green_l.append( green_l[eff_i-1] + blue_delt_f )
+    else:
+      green_l.append( green_l[eff_i-1] - blue_delt_f )
+
+len(green_l) == len(blue_l) # should be true
+
+# With matplotlib, I only need a few lines of syntax to plot a timeseries:
+import matplotlib.pyplot as plt
+plt.plot(cdate_l, blue_l, 'b-',cdate_l, green_l, 'g-')
+plt.show()
+# I should add a legend and title now
+
+'bye'
+</code>

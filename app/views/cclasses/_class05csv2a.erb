@@ -1,0 +1,44 @@
+<code class='bash'>
+csv_l = read.csv('http://www.spy611.com/csv/allpredictions.csv')
+somecsv_l = csv_l[c(1:5),c(1:8)]
+somecsv_l
+
+<hr />
+
+Here is a screen dump:
+
+r5@al78:~ $ 
+r5@al78:~ $ R
+
+R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> 
+> csv_l = read.csv('http://www.spy611.com/csv/allpredictions.csv')
+> somecsv_l = csv_l[c(1:5),c(1:8)]
+> somecsv_l
+       cdate     cp pctlead pctlag1 pctlag2 pctlag4 pctlag8 pctlag16
+1 1981-01-02 136.34   1.196   0.427   0.746  -0.168   1.975    4.491
+2 1981-01-05 137.97   0.109   1.196   1.628   2.177   1.613    7.571
+3 1981-01-06 138.12  -2.201   0.109   1.306   2.062   2.084    8.448
+4 1981-01-07 135.08  -1.495  -2.201  -2.095  -0.501  -0.589    4.527
+5 1981-01-08 133.06   0.316  -1.495  -3.663  -2.406  -2.570    2.789
+> 
+>
+</code>

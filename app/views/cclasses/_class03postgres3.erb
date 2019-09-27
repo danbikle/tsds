@@ -1,0 +1,109 @@
+<code class='sql'>
+dan@a78:~/tsds4/public/class03 $ 
+dan@a78:~/tsds4/public/class03 $ curl -L www.spy611.com/csv/allpredictions.csv > /tmp/allpredictions.csv
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100 1659k  100 1659k    0     0  1571k      0  0:00:01  0:00:01 --:--:-- 2706k
+dan@a78:~/tsds4/public/class03 $ 
+dan@a78:~/tsds4/public/class03 $ 
+dan@a78:~/tsds4/public/class03 $ ll /tmp/allpredictions.csv
+-rw-rw-r-- 1 dan dan 1699020 Jun 21 15:43 /tmp/allpredictions.csv
+dan@a78:~/tsds4/public/class03 $ 
+dan@a78:~/tsds4/public/class03 $ 
+dan@a78:~/tsds4/public/class03 $ psql -a -P pager=no -f pg1.sql
+-- pg1.sql
+-- This script should load allpredictions.csv into a postgres table.
+-- Demo:
+-- curl -L www.spy611.com/csv/allpredictions.csv > /tmp/allpredictions.csv
+-- psql -a -P pager=no -f pg1.sql
+drop   table allpredictions;
+psql:pg1.sql:8: ERROR:  table "allpredictions" does not exist
+create table allpredictions
+(cdate text,cp numeric,pctlead numeric,pctlag1 numeric,pctlag2 numeric,pctlag4 numeric,pctlag8 numeric,pctlag16 numeric,actual_dir numeric,prob_lr numeric,pdir_lr numeric,eff1d_lr numeric,recent_eff_lr numeric,accuracy_lr text,pdir_nb numeric,eff1d_nb numeric,recent_eff_nb numeric,accuracy_nb text,lead numeric,rdelta numeric,gdelta numeric,red numeric,green numeric,allred numeric,allgreen numeric);
+CREATE TABLE
+COPY allpredictions
+(
+cdate,cp,pctlead,pctlag1,pctlag2,pctlag4,pctlag8,pctlag16,actual_dir,prob_lr,pdir_lr,eff1d_lr,recent_eff_lr,accuracy_lr,pdir_nb,eff1d_nb,recent_eff_nb,accuracy_nb,lead,rdelta,gdelta,red,green,allred,allgreen
+) FROM '/tmp/allpredictions.csv' WITH CSV HEADER DELIMITER AS ','
+;
+COPY 9197
+select count(*) from allpredictions;
+ count 
+-------
+  9197
+(1 row)
+
+select min(pctlead), avg(pctlead), max(pctlead) from allpredictions;
+   min   |          avg           |  max   
+---------+------------------------+--------
+ -20.467 | 0.03754137218658258128 | 11.580
+(1 row)
+
+-- If pctlag1 is strongly negative, what is pctlead?
+select min(pctlead), avg(pctlead), max(pctlead) from allpredictions where pctlag1 < -1.1;
+   min   |          avg           |  max   
+---------+------------------------+--------
+ -20.467 | 0.09566170212765957447 | 11.580
+(1 row)
+
+-- If pctlag1 is strongly positive, what is pctlead?
+select min(pctlead), avg(pctlead), max(pctlead) from allpredictions where pctlag1 >  1.1;
+  min   |          avg           |  max  
+--------+------------------------+-------
+ -5.268 | 0.06275945683802133851 | 9.099
+(1 row)
+
+-- What is correlation between pctlag1, pctlead?
+select corr(pctlag1, pctlead) from allpredictions;
+        corr         
+---------------------
+ -0.0313914200135805
+(1 row)
+
+-- What did predictions look like in May 2016?
+select cdate,cp,pctlead,eff1d_lr,eff1d_nb from allpredictions
+where cdate like '2016-05%'
+order by cdate
+;
+   cdate    |    cp    | pctlead | eff1d_lr | eff1d_nb 
+------------+----------+---------+----------+----------
+ 2016-05-02 | 2081.430 |  -0.868 |   -0.868 |    0.868
+ 2016-05-03 | 2063.370 |  -0.594 |   -0.594 |   -0.594
+ 2016-05-04 | 2051.120 |  -0.024 |   -0.024 |   -0.024
+ 2016-05-05 | 2050.630 |   0.317 |    0.317 |    0.317
+ 2016-05-06 | 2057.140 |   0.075 |    0.075 |   -0.075
+ 2016-05-09 | 2058.690 |   1.248 |    1.248 |   -1.248
+ 2016-05-10 | 2084.390 |  -0.956 |    0.956 |    0.956
+ 2016-05-11 | 2064.460 |  -0.017 |   -0.017 |    0.017
+ 2016-05-12 | 2064.110 |  -0.848 |   -0.848 |    0.848
+ 2016-05-13 | 2046.610 |   0.980 |    0.980 |    0.980
+ 2016-05-16 | 2066.660 |  -0.941 |    0.941 |    0.941
+ 2016-05-17 | 2047.210 |   0.021 |    0.021 |    0.021
+ 2016-05-18 | 2047.630 |  -0.371 |   -0.371 |   -0.371
+ 2016-05-19 | 2040.040 |   0.602 |    0.602 |   -0.602
+ 2016-05-20 | 2052.320 |  -0.209 |   -0.209 |    0.209
+ 2016-05-23 | 2048.040 |   1.368 |    1.368 |   -1.368
+ 2016-05-24 | 2076.060 |   0.697 |   -0.697 |   -0.697
+ 2016-05-25 | 2090.540 |  -0.021 |    0.021 |    0.021
+ 2016-05-26 | 2090.100 |   0.429 |   -0.429 |   -0.429
+ 2016-05-27 | 2099.060 |  -0.101 |    0.101 |    0.101
+ 2016-05-31 | 2096.950 |   0.114 |   -0.114 |   -0.114
+(21 rows)
+
+-- In May 2016, which worked best, Long-Only, LR, or NB?
+-- I should aggregate to find out:
+select sum(pctlead),sum(eff1d_lr),sum(eff1d_nb) from allpredictions
+where cdate like '2016-05%'
+;
+  sum  |  sum  |  sum   
+-------+-------+--------
+ 0.901 | 2.459 | -0.243
+(1 row)
+
+dan@a78:~/tsds4/public/class03 $ 
+dan@a78:~/tsds4/public/class03 $ 
+dan@a78:~/tsds4/public/class03 $
+</code>

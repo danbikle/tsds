@@ -1,0 +1,264 @@
+%h1 Class03
+%h2 Some Answers
+%ul
+  %li What is a Vector?
+  %ul
+    %li I start my definition of a vector to be a collection of numbers.
+    %li Next I say that vectors can be added if they match size.
+    %li For example I could define two vectors and add them:
+    %li vector1 = [1.1,2.2,3.3]
+    %li vector2 = [4.1,5.2,6.3]
+    %li vector1 + vector2 is [5.2, 7.4, 9.6]
+    %li I could then expand the definition to say that I can operate on vectors with arithmetic.
+    %li For example the expression below would be valid:
+    %li vector4 = 2 * vector1 + vector2 / vector1
+    %li vector4 is [2.2,4.4,6.6] + [4.1/1.1, 5.2/2.2, 6.3/3.3]
+    %li vector4 is [2.2+4.1/1.1, 4.4+5.2/2.2, 6.6+6.3/3.3]
+    %li If I want to extend the definition further, I would take a class in Linear Algebra:
+    %li
+      %a(href='https://www.khanacademy.org/math/linear-algebra/vectors-and-spaces' target='x')
+        https://www.khanacademy.org/math/linear-algebra/vectors-and-spaces
+    %li
+      %hr/
+
+  %li
+    In Python how to implement a Vector?
+    %ul
+      %li In Python I use a Numpy array to implement vector:
+      %li
+        %pre
+          %code
+            import numpy as np
+            vector1 = np.array([1.1,2.2,3.3])
+            vector2 = np.array([4.1,5.2,6.3])
+            vector4 = 2 * vector1 + vector2 / vector1
+            print(vector4) # row vector
+            cvector1 = np.array([1.1,2.2,3.3])
+            cvector2 = np.array([4.1,5.2,6.3])
+            cvector1.shape = (3,1)
+            cvector2.shape = (3,1)
+            cvector4 = 2 * cvector1 + cvector2 / cvector1
+            print(cvector4) # column vector
+      %li
+        %hr/
+
+  %li
+    Can a Vector contain a mix of numbers and strings?
+    %ul
+      %li Using my above definition, no. 
+      %li I can do arithmetic on numbers but not strings.
+      %li
+        %hr/
+  %li
+    What is a Scalar?
+    %ul
+      %li A Scalar is just a number.
+      %li I can use a scalar to 'scale' a vector:
+      %li
+        %pre
+          %code
+            import numpy as np
+            myscalar = 2.0
+            vector1  = np.array([1.1,2.2,3.3])
+            vector2  = np.array([4.1,5.2,6.3])
+            vector4  = myscalar * vector1 + vector2 / vector1
+            print(vector4)
+      %li
+        %hr/
+
+  %li
+    What is a Tensor?
+    %ul
+      %li Both a vector and a scalar are a type of tensor.
+      %li A tensor is a more general type of object.
+      %li A common type of tensor is a collection of vectors.
+      %li One abstract concept about a tensor is that I can constrain the operations I can apply to the tensor.
+      %li This abstraction allows me to model physical properties of objects using tensors.
+      %li
+        %hr/
+      
+  %li
+    What is NumPy?
+    %ul
+      %li NumPy is a popular Python module.
+      %li
+        %hr/
+  %li
+    How to install NumPy?
+    %ul
+      %li I use Anaconda Python which has NumPy installed.
+      %li I install NumPy by installing Anaconda Python.
+      %li
+        %hr/
+    
+  %li
+    What types of NumPy objects are useful?
+    %ul
+      %li I use NumPy Array and that is about it.
+      %li
+        %hr/
+
+  %li
+    What types of NumPy methods are useful?
+    %ul
+      %li I like: mean(), median(), corrcoef(), sum(), size(), std()
+      %li
+        %pre
+          %code
+            import numpy as np
+            array1_a = np.array([1.1,2.2,3.39])
+            print(np.mean(array1_a))
+            print(np.median(array1_a))
+            array2_a = np.array([1.1, 3.2, 2.39])
+            \# Show corrcoef as 4 combinations:
+            \# array1_a and array1_a
+            \# array1_a and array2_a
+            \# array2_a and array1_a
+            \# array2_a and array2_a
+            print(np.corrcoef(array1_a, array2_a))
+            \# I probably want only one combination:
+            print(np.corrcoef(array1_a, array2_a)[0,1]) # I probably want this.
+            print(np.sum(array1_a))
+            print(np.size(array1_a))
+            print(np.std(array1_a))
+      %li
+        %hr/
+
+  %li
+    Why use NumPy?
+    %ul
+      %li I can use NumPy to do many types of linear algebra calculations:
+      %li
+        %pre
+          %code
+            import numpy as np
+            array1_a = np.array([1.1,2.2,3.39])      
+            array2_a = np.array([1.1, 3.2, 2.39])
+            \# Transpose:
+            array1_a.shape = (1,3)
+            array3_a = array1_a.T
+            print(array3_a)
+            \# Matrix multiplication:
+            mult1_a = np.matmul(array1_a,array3_a) # rows x columns
+            \# Inverse:
+            m1_a = np.array([[1.1,2.2,3.39],[1.1, 3.2, 2.39]])
+            print(m1_a)
+            inv_a = np.linalg.pinv(m1_a)
+            print(inv_a)
+            \# Identity Matrix:
+            id_a = np.matmul(m1_a,inv_a)
+            print(id_a)
+      %li I should know NumPy if I want to use popular Python machine learning modules.
+      %li
+        %hr/
+
+
+  %li
+    What is Pandas?
+    %ul
+      %li Pandas is a popular Python module.
+      %li
+        %hr/
+
+  %li
+    How to install Pandas?
+    %ul
+      %li I use Anaconda Python which has Pandas installed.
+      %li I install Pandas by installing Anaconda Python.
+      %li
+        %hr/
+    
+  %li
+    What types of Pandas objects are useful?
+    %ul
+      %li DataFrame
+      %li Series
+      %li
+        %hr/
+    
+  %li
+    What types of Pandas methods are useful?
+    %ul
+      %li read_csv()
+      %li to_csv()
+      %li brackets
+      %li loc
+      %li iloc
+      %li groupby()
+      %li values
+      %li index
+      %li rolling()
+      %li mean(), count(), corr(), std(), shift(), sum()
+      %li
+        %a(href='https://pandas.pydata.org/pandas-docs/stable/computation.html' target='x')
+          https://pandas.pydata.org/pandas-docs/stable/computation.html
+      %li
+        %a(href='https://pandas.pydata.org/pandas-docs/stable/timeseries.html' target='x')
+          https://pandas.pydata.org/pandas-docs/stable/timeseries.html
+  
+      %li
+        %hr/
+  %li
+    Why use Pandas?
+    %ul
+      %li Read from and write to CSV files.
+      %li Create tablular data from columns of different data types.
+      %li Apply predicates to tabular data.
+      %li
+        %hr/
+  %li
+    What is SQL?
+    %ul
+      %li I use SQL to interact with Sqlite3 and Postgres databases.
+      %li
+        %hr/
+  %li
+    How to install SQL?
+    %ul
+      %li SQL is bundled with Sqlite3 and Postgres.
+      %li
+        %pre
+          %code apt-get install sqlite3
+          %code apt-get install postgresql postgresql-server-dev-all libpq-dev
+      %li
+        %hr/
+
+  %li
+    What types of SQL objects are useful?
+    %ul
+      %li table
+      %li row
+      %li column
+      %li
+        %hr/
+      
+  %li
+    What types of SQL methods are useful?
+    %ul
+      %li select
+      %li sum()
+      %li count()
+      %li avg()
+      %li corr() [ Postgres only ]
+      %li 'Window Functions' [ Postgres only ]
+      %li
+        %hr/
+
+  %li
+    Why use SQL?
+    %ul
+      %li SQL syntax is easy to understand.
+      %li SQL is well suited for tablular data.
+      %li
+        %hr/
+  %li
+    How to use NumPy, Pandas, or SQL to interact with a time series?
+    %ul
+      %li I start with a left-most column which contains date or time.
+      %li Then I add more columns which correspond to observation data for each time-stamp.
+      %li
+        %hr/
+      
+%p
+  %a(href='class03#lab')
+    Class03 Lab

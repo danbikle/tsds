@@ -1,0 +1,49 @@
+%h2 Class03 Lab Answer:
+%h2 Write a script which loads allpredictions.csv into a Postgres table.
+
+%p This lab was easier than the sqlite-lab.
+
+%p I used an editor to create the sql script listed below:
+
+.syntax
+  %pre
+    =render 'class03postgres2'
+
+%p Next I used curl to get a copy of allpredictions.csv:
+
+.syntax
+  %pre
+    %code.bash
+      cd /tmp/
+      curl -L www.spy611.com/csv/allpredictions.csv > allpredictions.csv
+
+%p Then, I ran the script.
+%p Output is displayed below:
+
+.syntax
+  %pre
+    =render 'class03postgres3'
+
+%p I translate the above output into English:
+
+%ul
+  %li allpredictions.csv has 9016 predictions
+  %li The minimum 1-day gain (the pctlead column) was -20.467%
+  %li The average 1-day gain was 0.037%
+  %li The maximum 1-day gain (the pctlead column) was +11.58%
+  %li If pctlag1 was strongly negative, average 1-day gain was 0.095% which is 2.6 times larger than average.
+  %li If pctlag1 was strongly positive, average 1-day gain was 0.063% which is 1.7 times larger than average.
+  %li Correlation between pctlag1 and pctlead is -0.031 which is small
+  %li (If correlation has a large absolute value, then pctlag1 can be used to predict pctlead)
+  %li The first trading day of May 2016 was 2016-05-02 with a close price of 2081.43
+  %li The last  trading day of May 2016 was 2016-05-31 with a close price of 2096.95
+  %li For May 2016 ...
+  %li The effectiveness of Long-Only was 0.901
+  %li The effectiveness of Logistic-Regression was 2.459 
+  %li The effectiveness of Naive-Bayes was -0.243
+  %li Logistic-Regression was effective in May 2016.
+
+
+%p
+  %a(href='class03#lab')
+    Class03 Lab

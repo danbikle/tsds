@@ -1,0 +1,14 @@
+%p To implement a Vector in Python I should use a NumPy array rather than a Python list.
+%p Here is a simple demo which creates two NumPy arrays and then adds them together.
+
+.syntax
+  %pre
+    %code
+      import numpy as np
+      vector1 = np.array([1.1, 2.2])
+      vector2 = np.array([3.3, 4.4])
+      vector3 = vector1 + vector2
+      print(vector3)
+%p
+  %a(href='class03#lab')
+    Class03 Lab

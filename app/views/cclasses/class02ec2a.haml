@@ -1,0 +1,82 @@
+%h2 Class02 Lab Answer:
+%h2 Create EC2 instance
+
+%p This is an easy lab.
+
+%p I clicked this link:
+%p
+  %a(href='https://console.aws.amazon.com' target='x')
+    https://console.aws.amazon.com
+  
+
+%p AWS might ask me to login.
+
+%p I clicked the EC2 link.
+
+%p I should see something like this:
+%img(src='/class02/ec2_16-03-53.png')
+
+%p Next, I clicked the blue button.
+
+%p I saw something like this:
+%img(src='/class02/ec2_16-04-52.png')
+
+%p I interacted with a series of pages:
+
+%img(src='/class02/ec2_16-05-19.png')
+%hr/
+%img(src='/class02/ec2_16-06-04.png')
+%hr/
+%img(src='/class02/ec2_16-06-32.png')
+%hr/
+%img(src='/class02/ec2_16-07-06.png')
+%hr/
+%img(src='/class02/ec2_16-07-28.png')
+%hr/
+%img(src='/class02/ec2_16-07-52.png')
+%hr/
+%img(src='/class02/ec2_16-08-18.png')
+%hr/
+%img(src='/class02/ec2_16-09-19.png')
+%hr/
+%img(src='/class02/ec2_16-09-47.png')
+%hr/
+%img(src='/class02/ec2_16-12-05.png')
+%hr/
+%p Note the chmod command in the instructions below:
+%img(src='/class02/ec2_16-13-01.png')
+%hr/
+%img(src='/class02/ec2_16-13-40.png')
+%hr/
+%p The screen below is missing a shell command:
+
+.syntax
+  %pre
+    %code.bash chmod 400 ~/.ssh/bikle10.pem
+%p I edited a security group allowed my laptop to connect over ssh:
+%img(src='/class02/sg14-21-14.png')
+%hr/
+%img(src='/class02/sg14-21-32.png')
+%hr/
+%img(src='/class02/sg14-22-04.png')
+%hr/
+%img(src='/class02/sg14-22-44.png')
+%hr/
+
+%p I used ssh to connect to my new EC2 instance:
+%img(src='/class02/ec2_16-19-03.png')
+%hr/
+
+%p I terminated the EC2 instance because I did not need it anymore:
+%hr/
+%img(src='/class02/ec2_16-22-53.png')
+%hr/
+%img(src='/class02/ec2_16-23-14.png')
+%hr/
+
+%p I did the above step from home; the school-network blocks outbound ssh connections.
+
+  
+%p
+  %a(href='class02#lab')
+    Class02 Lab

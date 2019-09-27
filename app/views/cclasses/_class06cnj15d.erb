@@ -1,0 +1,47 @@
+<code class='bash'>
+&lt;html>
+
+  &lt;script src='js1.js'>&lt;/script>
+  &lt;script src='js2.js'>&lt;/script>
+
+  &lt;script>
+    urnumber  = mynumber
+    
+    var ima_s = 'Ima string'
+    var ima_i = 7   // Ima integer and this is a comment
+    var ima_f = 7.7 /* Ima float and this a comment too */
+    var ima_a = [ima_s, ima_i, ima_f]      // Im array
+    var ima_o = {'k1': ima_s, 'k2': ima_a} // Im object
+    ima_o['k2'][2] // What am i?
+    ima_o.k1[2]    // What am i?
+
+    for(var i=0;i&lt;5;i++) {
+      ima_i = ima_i + i
+      'Im ina loop'
+    }
+
+    ima_a.forEach(function(thng) {
+      'Im ina loop too'
+      'thng is...:'
+      thng
+    })
+
+    function ima_function1(in1,in2) {
+      // This function is simple; it adds two objects:
+      var out1 = in1 + in2
+      return out1
+    }
+
+    var ima_function2 = function(in1,in2) {
+      // This function is simple; it multiplies two objects:
+      var out1 = in1 * in2
+      return out1
+    }
+
+    var my_f = ima_function1(1.1, 2.2)
+    var ur_f = ima_function2(3.3, 4.4)
+    
+    'bye'
+  &lt;/script>
+&lt;/html>
+</code>

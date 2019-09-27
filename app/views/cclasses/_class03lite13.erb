@@ -1,0 +1,76 @@
+<code class='bash'>
+dan@pavlap:/tmp $ 
+dan@pavlap:/tmp $ 
+dan@pavlap:/tmp $ sqlite3 -init /tmp/sqlite_csv.sql sqlite_csv.db
+-- Loading resources from /tmp/sqlite_csv.sql
+drop table   allpredictions;
+create table allpredictions
+(cdate string,cp string,pctlead string,pctlag1 string,pctlag2 string,pctlag4 string,pctlag8 string,pctlag16 string,actual_dir string,prob_lr string,pdir_lr string,eff1d_lr string,recent_eff_lr string,accuracy_lr string,pdir_nb string,eff1d_nb string,recent_eff_nb string,accuracy_nb string,lead string,rdelta string,gdelta string,red string,green string,allred string,allgreen string);
+
+-- This syntax belongs after the list of columns in the CREATE TABLE statement.
+
+.separator ,
+.import /tmp/allpredictions_nh.csv allpredictions
+
+-- I should run some interesting queries:
+select count(*) from allpredictions;
+9016
+
+select min(pctlead), avg(pctlead), max(pctlead) from allpredictions;
+-20.467,0.0368880878438331,11.58
+
+-- If pctlag1 is strongly negative, what is pctlead?
+select min(pctlead), avg(pctlead), max(pctlead) from allpredictions where pctlag1 &lt; -1.1;
+-20.467,0.0952497331910353,11.58
+
+-- If pctlag1 is strongly positive, what is pctlead?
+select min(pctlead), avg(pctlead), max(pctlead) from allpredictions where pctlag1 >  1.1;
+-5.268,0.0628072054527752,9.099
+
+-- What is correlation between pctlag1, pctlead?
+-- select corr(pctlag1, pctlead) from allpredictions;
+-- oops, I cannot do that.
+-- postgres has corr(x, y) but not sqlite.
+
+-- What did predictions look like in May 2016?
+select cdate,cp,pctlead,eff1d_lr,eff1d_nb from allpredictions
+where cdate like '2016-05%'
+order by cdate
+;
+2016-05-02,2081.43,-0.868,-0.868,0.868
+2016-05-03,2063.37,-0.594,-0.594,-0.594
+2016-05-04,2051.12,-0.024,-0.024,-0.024
+2016-05-05,2050.63,0.317,0.317,0.317
+2016-05-06,2057.14,0.075,0.075,-0.075
+2016-05-09,2058.69,1.248,1.248,-1.248
+2016-05-10,2084.39,-0.956,0.956,0.956
+2016-05-11,2064.46,-0.017,-0.017,0.017
+2016-05-12,2064.11,-0.848,-0.848,0.848
+2016-05-13,2046.61,0.98,0.98,0.98
+2016-05-16,2066.66,-0.941,0.941,0.941
+2016-05-17,2047.21,0.021,0.021,0.021
+2016-05-18,2047.63,-0.371,-0.371,-0.371
+2016-05-19,2040.04,0.602,0.602,-0.602
+2016-05-20,2052.32,-0.209,-0.209,0.209
+2016-05-23,2048.04,1.368,1.368,-1.368
+2016-05-24,2076.06,0.697,-0.697,-0.697
+2016-05-25,2090.54,-0.021,0.021,0.021
+2016-05-26,2090.1,0.429,-0.429,-0.429
+2016-05-27,2099.06,-0.101,0.101,0.101
+2016-05-31,2096.95,0.114,-0.114,-0.114
+
+-- In May 2016, which worked best, Long-Only, LR, or NB?
+-- I should aggregate to find out:
+select sum(pctlead),sum(eff1d_lr),sum(eff1d_nb) from allpredictions
+where cdate like '2016-05%'
+;
+0.901,2.459,-0.243
+
+.quit
+SQLite version 3.13.0 2016-05-18 10:57:30
+Enter ".help" for usage hints.
+sqlite> 
+sqlite> 
+dan@pavlap:/tmp $ 
+</code>
+

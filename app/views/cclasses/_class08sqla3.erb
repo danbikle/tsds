@@ -1,0 +1,40 @@
+<code class='sql'>
+.echo on
+--
+-- class08sqla.sql
+--
+
+-- For 2016, 
+-- This script should report on aggregated Accuracy using SQL against datepp.csv
+
+drop   table datepp;
+create table datepp(cdate varchar, cp number, prob_lr number, cp_lead number);
+.separator ,
+.import datepp.csv datepp
+
+-- Delete data I dont want
+delete from datepp where cdate &lt; '2016';
+delete from datepp where cdate > '2017';
+-- I dont want last observation because cp_lead is unknown:
+delete from datepp where cdate = (select max(cdate) from datepp);
+
+-- Count all observations
+select count(*) from datepp;
+
+-- Count True positives
+select count(*) from datepp where (cp_lead - cp) >= 0 and prob_lr >= 0.5;
+-- Count True negatives
+select count(*) from datepp where (cp_lead - cp) &lt;= 0 and prob_lr &lt; 0.5;
+
+-- Count False positives
+select count(*) from datepp where (cp_lead - cp) &lt; 0 and prob_lr >= 0.5;
+-- Count False negatives
+select count(*) from datepp where (cp_lead - cp) > 0 and prob_lr &lt; 0.5;
+
+-- Accuracy is 100.0 * (true_pos_count + true_neg_count) / total_count
+select 100.0*(true_pos_count + true_neg_count) / total_count as accuracy from
+(select count(*) as total_count from datepp)
+,(select count(*) as true_pos_count from datepp where (cp_lead - cp) >= 0 and prob_lr >= 0.5)
+,(select count(*) as true_neg_count from datepp where (cp_lead - cp) &lt;= 0 and prob_lr &lt; 0.5)
+;
+</code>

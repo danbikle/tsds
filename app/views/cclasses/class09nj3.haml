@@ -1,0 +1,45 @@
+%h2 Class09 Lab Answer:
+%h2 Initialize a Node.js App: node09
+
+%p We saw how to do this in class07.
+
+.syntax
+  %pre
+    %code.bash
+      cd ~ann
+      mkdir node09
+      cd    node09
+      npm init
+      npm install engines     --save
+      npm install http-server --save
+      echo node_modules >> .gitignore
+      git init
+      git add .
+      git commit -am hello-node9
+%p I ran the above syntax on my laptop and it worked well.
+
+%p Next, I got some content:
+
+.syntax
+  %pre
+    %code.bash
+      cd ~ann/node09
+      wget -r http://code.shutterstock.com/rickshaw/tutorial/example_07.html
+      rsync -a       code.shutterstock.com/rickshaw ./
+      sed '1,$s:="../:="/rickshaw/:' rickshaw/tutorial/example_07.html > index.html
+
+%p Then I started http-server so my browser could see it:
+
+.syntax
+  %pre
+    %code.bash
+      cd ~ann/node09
+      node_modules/.bin/http-server
+
+%p I then used my browser to see this time-series visualization:
+
+%img(src='/class09/ts1.png')
+
+%p
+  %a(href='class09#lab')
+    Class09 Lab

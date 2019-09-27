@@ -1,0 +1,25 @@
+%h2 Class02 Lab Answer:
+%h2 Download PEM file
+
+%p This is an easy lab.
+
+%p
+  When I create an EC2 instance, I will reach a point in the web-UI when it asks me if I want to
+  download a PEM file.
+  
+%p
+  I just say yes and that completes this lab exercise.
+
+%img(src='/class02/pemkey1.png')
+  
+%p
+  If the file lands in my ~/Downloads/ folder I should move it to the ~/.ssh/ folder:
+.syntax
+  %pre
+    %code
+      mv ~/Downloads/tsds.pem ~/.ssh/
+      chmod 600 ~/.ssh/tsds.pem
+
+%p
+  %a(href='class02#lab')
+    Class02 Lab

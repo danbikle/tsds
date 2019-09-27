@@ -1,0 +1,233 @@
+%h1 Class02
+%h2 Topics:
+%ul
+  %li AWS
+  %li Linux
+  %li Git
+  %li Heroku
+
+%h2 Questions and Answers:
+
+%ul
+  %li
+    Should I assume lab PC will log my keystrokes?
+    %ul
+      %li Yes.
+      %li
+        %hr/
+  %li
+    Should I use lab PC to access my e-mail?
+    %ul
+      %li No.
+      %li
+        %hr/
+  %li
+    Should I use lab PC to submit a credit card number?
+    %ul
+      %li No.
+      %li
+        %hr/
+  %li
+    Should I use lab PC to access my amazon account?
+    %ul
+      %li No.
+      %li
+        %hr/
+  %li
+    How can I safely connect to Amazon and e-mail from lab?
+    %ul
+      %li Bring your laptop or phone (which uses encrypted connections).
+      %li
+        %hr/
+  %li
+    Which parts of AWS interest us the most?
+    %ul
+      %li EC2
+      %li S3
+      %li
+        %hr/
+  %li
+    How would you introduce EC2 to a new person?
+    %ul
+      %li I would show how to setup an instance.
+      %li I would show how to ask EC2 for a PEM file.
+      %li I would show how to ssh to an existing instance with the PEM file.
+      %li
+        %hr/
+
+  %li
+    What is a PEM file?
+    %ul
+      %li A PEM file replaces the need for a password.
+      %li
+        %hr/
+
+  %li
+    How do I get a PEM file?
+    %ul
+      %li I download a PEM file from EC2 web-UI.
+      %li
+        %hr/
+
+  %li
+    Once I have a PEM file where to store it?
+    %ul
+      %li I give it a simple name like aws1.pem
+      %li I put it in this folder: ~/.ssh/
+      %li
+        %hr/
+  %li
+    Once I have a PEM file how to use it?
+    %ul
+      %li
+        I use it like this:
+        %pre
+          %code ssh -i ~/.ssh/aws1.pem ubuntu@someip
+      %li
+        %hr/
+  %li
+    Is it possible to deploy a copy www.spy611.com to EC2?
+    %ul
+      %li Yes.
+      %li Directions:
+      %li
+        %a(href='http://www.spy611.com/software/spy611aws' target='x')
+          http://www.spy611.com/software/spy611aws
+      %li
+        %hr/
+  
+  %li
+    What is S3?
+    %ul
+      %li S3 is an Amazon service I use to store and serve large files.
+      %li
+        %hr/
+  %li
+    How to get started with S3?
+    %ul
+      %li Use the web-UI to create a bucket with a unique name.
+      %li Use the web-UI to upload files into the bucket.
+      %li Use the web-UI to make the files public or private.
+      %li
+        Use the shell to interact with S3:
+        %a(href='http://docs.aws.amazon.com/cli/latest/userguide/using-s3-commands.html' target='x')
+          http://docs.aws.amazon.com/cli/latest/userguide/using-s3-commands.html
+      %li
+        %hr/
+  %li
+    Why use S3?
+    %ul
+      %li It's cheap.
+      %li It's popular.
+      %li It's useful.
+      %li Most Data Scientists will encounter S3; that is where the data is.
+      %li
+        %hr/
+
+  %li
+    Can I use a PEM file to access S3?
+    %ul
+      %li Probably not.
+      %li
+        %hr/
+
+  %li
+    Linux vs Mac vs Windows, what is the data scientist opinion?
+    %ul
+      %li It depends on the use-case.
+      %li If you need to use Excel, Windows is a good choice.
+      %li If you can affort it, Mac is best.
+      %li Linux offers the best software installation experience.
+      %li To build then host a Data Science App, Linux is best.
+      %li
+        %hr/
+  %li
+    How to get started with Linux?
+    %ul
+      %li Linux inside VirtualBox on Mac.
+      %li Linux on EC2.
+      %li Linux on Chromebook via crouton.
+      %li Linux installed on laptop.
+      %li Linux on laptop from Zareason.com
+      %li Last choice: Linux inside VirtualBox on windows.
+      %li
+        %hr/
+
+  %li
+    Which flavor of Linux should I learn first?
+    %ul
+      %li First choice: Ubuntu 16.04
+      %li Second choice: Ubuntu 14.04
+      %li Third choice: Centos 7.x
+      %li Fourth choice: Fedora
+      %li
+        %hr/
+  %li
+    How is AWS Linux different than Laptop Linux?
+    %ul
+      %li No access to GUI tools.
+      %li Variable cost (by the hour).
+      %li Access to internet is excellent.
+      %li Easy to setup.
+      %li Easy to backup.
+      %li Easy to duplicate.
+      %li Easy to scale.
+      %li
+        %hr/
+  %li
+    How to get help with Linux?
+    %ul
+      %li
+        Site:
+        %a(href='http://askubuntu.com' target='x')
+          http://askubuntu.com
+      %li
+        %hr/
+  
+  %li
+    What is Git?
+    %ul
+      %li Git is software to store and share groups of files.
+      %li
+        %hr/
+  %li
+    Why use git?
+    %ul
+      %li I use git store and share groups of files.
+      %li I use git to 'time-travel' when I work with software.
+      %li I use git to see differences between similar software.
+      %li I use git to deploy software to heroku and EC2.
+      %li I use git to present syntax to students.
+      %li
+        %hr/
+  %li
+    What are the top git use-cases?
+    %ul
+      %li Clone a repo: git clone
+      %li Add a file to a repo: git add, git commit
+      %li Check status of repo: git status
+      %li Initialize a repo: git init
+      %li Pull your changes into my repo: git pull
+      %li Push my changes into other repo: git push
+      %li
+        %hr/
+  %li
+    What is Heroku?
+    %ul
+      %li Heroku allows me to serve my websites for free.
+      %li I use git to copy website from laptop into Heroku.
+      %li
+        %hr/
+  %li
+    Why use Heroku?
+    %ul
+      %li Heroku is low cost (usually free).
+      %li Heroku is simple.
+      %li Heroku performs well.
+      %li
+        %hr/
+  
+%p
+  %a(href='class02')
+    Class02
+    

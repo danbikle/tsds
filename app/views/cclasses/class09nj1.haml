@@ -1,0 +1,25 @@
+%h2 Class09 Lab Answer:
+%h2 Install Node.js
+
+%p It is easy to install Node.js
+
+%p I did this inside the ann account on my laptop:
+
+.syntax
+  %pre
+    %code.bash
+      cd ~ann
+      rm -rf node-v8.2.1-linux-x64 node node-v8.2.1-linux-x64.tar.xz
+      wget https://nodejs.org/dist/v8.2.1/node-v8.2.1-linux-x64.tar.xz
+      tar xf node-v8.2.1-linux-x64.tar.xz
+      ln -s node-v8.2.1-linux-x64 node
+      echo 'export PATH=${HOME}/node/bin:${PATH}' >> ~ann/.bashrc
+      bash
+      node -v
+
+%p I ran the above shell commands on my laptop.
+%p Now I have Node.js
+
+%p
+  %a(href='class09#lab')
+    Class09 Lab

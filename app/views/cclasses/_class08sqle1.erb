@@ -1,0 +1,18 @@
+<code class='bash'>
+#!/bin/bash
+
+# class08sqle.bash
+
+# For 2016, 
+# This script should report on aggregated Accuracy using SQL against allpredictions.csv
+
+# I should use python to create datepp.csv for sqlite:
+python class08sqla.py
+
+# I should use sqlite to report against datepp.csv
+sqlite3 my.db <<EOF
+.read class08sqle.sql
+EOF
+
+exit
+</code>

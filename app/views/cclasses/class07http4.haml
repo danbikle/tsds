@@ -1,0 +1,22 @@
+%h2 Class07 Lab Answer:
+%h2 Enhance d1d2 so it serves a histogram
+
+%p It turns out that wget did not get all the files.
+%p I worked around this problem with the shell commands listed below:
+
+.syntax
+  %pre
+    %code.bash
+      cd ~/d1d2/
+      \/usr/bin/curl d1d2.herokuapp.com/csv/GSPC2.csv                > csv/GSPC2.csv
+      \/usr/bin/curl d1d2.herokuapp.com/csv/GSPClatest_timestamp.txt > csv/GSPClatest_timestamp.txt
+      mv blog    blog.html
+      mv contact contact.html
+
+%hr/
+%img(src='/class07/http4.png')
+%hr/
+
+%p
+  %a(href='class07#lab')
+    Class07 Lab

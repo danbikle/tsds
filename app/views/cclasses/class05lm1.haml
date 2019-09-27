@@ -1,0 +1,21 @@
+%h2 Class05 Lab Answer:
+%h2 Use Linear Regression to train and predict from allpredictions.csv
+
+%p I wrote a simple script to do this lab:
+.syntax
+  %pre
+    =render 'class05lm2'
+
+%p After I ran the script, I saw this:
+.syntax
+  %pre
+    =render 'class05lm3'
+
+%p When I study the above predictions I observe these facts:
+%ul
+  %li This model has learned that pctlead 'reverts to mean'.
+  %li After down-days, mean-reversion is stronger than after up-days.
+  %li The two most predictve features are pctlag2 and pctlag8.
+%p
+  %a(href='class05#lab')
+    Class05 Lab

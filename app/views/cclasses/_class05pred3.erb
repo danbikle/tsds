@@ -1,0 +1,236 @@
+<code class='bash'>
+r5@al78:~/tsds/public/class05 $ 
+r5@al78:~/tsds/public/class05 $ R -f pred1.r 
+
+R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # pred1.r
+> 
+> # This script should create and use predicates.
+> 
+> # Demo:
+> # R -f pred1.r
+> 
+> # First I should get a list:
+> csv_l  = read.csv('http://www.spy611.com/csv/allpredictions.csv')
+> 
+> # I should convert my list into a Data Frame:
+> csv_df = data.frame(csv_l)
+> 
+> # I should create a predicate to get all rows where cp > 2100.0:
+> # pred1 = (csv_df[ , c(2)] > 2100.0)
+> # better syntax, more concise:
+> pred1 = (csv_df$cp > 2100.0) 
+> tail(pred1)
+[1]  TRUE FALSE FALSE FALSE FALSE FALSE
+> 
+> # I should apply the predicate:
+> constrained_df = csv_df[pred1, ]
+> head(constrained_df)
+          cdate      cp pctlead pctlag1 pctlag2 pctlag4 pctlag8 pctlag16
+8607 2015-02-17 2100.34  -0.031   0.160   0.568   1.535   2.882    2.365
+8610 2015-02-20 2110.30  -0.030   0.613   0.506   0.635   3.105    5.401
+8611 2015-02-23 2109.66   0.276  -0.030   0.582   0.444   1.985    4.374
+8612 2015-02-24 2115.48  -0.077   0.276   0.245   0.752   2.270    6.040
+8613 2015-02-25 2113.86  -0.148  -0.077   0.199   0.782   1.215    4.603
+8614 2015-02-26 2110.74  -0.296  -0.148  -0.224   0.021   0.656    2.961
+     actual_dir prob_lr pdir_lr eff1d_lr recent_eff_lr    accuracy_lr pdir_nb
+8607         -1   0.479      -1    0.031        -0.299  True Negative      -1
+8610         -1   0.476      -1    0.030        -0.121  True Negative      -1
+8611          1   0.488      -1   -0.276        -0.144 False Negative      -1
+8612         -1   0.491      -1    0.077        -0.135  True Negative      -1
+8613         -1   0.501       1   -0.148        -0.186 False Positive      -1
+8614         -1   0.504       1   -0.296        -0.123 False Positive      -1
+     eff1d_nb recent_eff_nb    accuracy_nb  lead rdelta gdelta     red   green
+8607    0.031        -0.299  True Negative -0.66   0.66   0.66 1968.90 2098.26
+8610    0.030        -0.121  True Negative -0.64   0.64   0.64 1958.94 2088.30
+8611   -0.276        -0.144 False Negative  5.82  -5.82  -5.82 1959.58 2088.94
+8612    0.077        -0.135  True Negative -1.62   1.62   1.62 1953.76 2083.12
+8613    0.148        -0.127  True Negative -3.12   3.12  -3.12 1955.38 2084.74
+8614    0.296         0.055  True Negative -6.24   6.24  -6.24 1958.50 2081.62
+      allred allgreen
+8607 2924.36  2944.14
+8610 2914.40  2934.18
+8611 2915.04  2934.82
+8612 2909.22  2929.00
+8613 2910.84  2930.62
+8614 2913.96  2927.50
+> tail(constrained_df)
+          cdate      cp pctlead pctlag1 pctlag2 pctlag4 pctlag8 pctlag16
+8933 2016-06-02 2105.26  -0.291   0.282   0.396   0.725   2.580    1.001
+8935 2016-06-06 2109.41   0.129   0.490   0.197   0.594   1.606    2.195
+8936 2016-06-07 2112.13   0.331   0.129   0.619   0.610   1.033    3.201
+8937 2016-06-08 2119.12  -0.172   0.331   0.460   0.658   1.388    2.538
+8938 2016-06-09 2115.48  -0.918  -0.172   0.159   0.779   0.782    3.335
+8948 2016-06-23 2113.32  -3.597   1.336   1.169   2.033   1.648    0.666
+     actual_dir prob_lr pdir_lr eff1d_lr recent_eff_lr    accuracy_lr pdir_nb
+8933         -1   0.476      -1    0.291        -0.087  True Negative      -1
+8935          1   0.487      -1   -0.129        -0.145 False Negative      -1
+8936          1   0.493      -1   -0.331        -0.188 False Negative      -1
+8937         -1   0.489      -1    0.172        -0.097  True Negative      -1
+8938         -1   0.502       1   -0.918        -0.339 False Positive      -1
+8948         -1   0.478      -1    3.597         1.124  True Negative      -1
+     eff1d_nb recent_eff_nb    accuracy_nb   lead rdelta gdelta     red   green
+8933    0.291        -0.087  True Negative  -6.13   6.13   6.13 1852.66 2127.70
+8935   -0.129        -0.145 False Negative   2.72  -2.72  -2.72 1848.51 2123.55
+8936   -0.331        -0.188 False Negative   6.99  -6.99  -6.99 1845.79 2120.83
+8937    0.172        -0.097  True Negative  -3.64   3.64   3.64 1838.80 2113.84
+8938    0.918         0.028  True Negative -19.41  19.41 -19.41 1842.44 2117.48
+8948    3.597         0.315  True Negative -76.02  76.02  76.02 1808.44 2115.32
+      allred allgreen
+8933 3118.10  3277.36
+8935 3113.95  3273.21
+8936 3111.23  3270.49
+8937 3104.24  3263.50
+8938 3107.88  3267.14
+8948 3073.88  3264.98
+> # Above expressions should show only rows where cp > 2100.0
+> # Number of rows where cp > 2100.0:
+> nrow(constrained_df)
+[1] 75
+> 
+> # I should create another predicate:
+> # This idea works in Python Pandas but not here:
+> # pred2 = (csv_df[ , c(1)] > '2016')
+> my_d    = as.Date(csv_df$cdate, "%Y-%m-%d")
+> pred3   = (my_d > '2016-01-01')
+> 
+> # I should show how to AND two predicates together:
+> pred4 = pred1 & pred3
+> 
+> # I should apply the predicate:
+> above2100in2016_df = csv_df[pred4, ]
+> 
+> # I should visualize the result:
+> above2100in2016_df[ , c('cdate','cp')]
+          cdate      cp
+8902 2016-04-19 2100.80
+8903 2016-04-20 2102.40
+8933 2016-06-02 2105.26
+8935 2016-06-06 2109.41
+8936 2016-06-07 2112.13
+8937 2016-06-08 2119.12
+8938 2016-06-09 2115.48
+8948 2016-06-23 2113.32
+> 
+> 
+> # I should do simple predictive analytics using predicates.
+> 
+> # I start with a simple English question:
+> # If sp500 is quiet, is that bullish?
+> 
+> # Next, I define 'quiet':
+> # quiet means that -0.2 &lt; pctlag1 &lt; 0.2
+> 
+> # Then I build a predicate:
+> qpred1 = (-0.2 &lt; csv_df$pctlag1)
+> qpred2 = (csv_df$pctlag1 &lt; 0.2 )
+> qpred3 = qpred1 & qpred2
+> 
+> # Next, I apply the predicate:
+> quiet_df       = csv_df[qpred3, ]
+> dayafter_quiet = quiet_df$pctlead
+> 
+> # Then I report the results:
+> mean(dayafter_quiet)
+[1] 0.01784312
+> median(dayafter_quiet)
+[1] 0.0435
+> mean(csv_df$pctlead)
+[1] 0.03686016
+> median(csv_df$pctlead)
+[1] 0.052
+> 
+> mean(dayafter_quiet)   > mean(csv_df$pctlead)
+[1] FALSE
+> median(dayafter_quiet) > median(csv_df$pctlead)
+[1] FALSE
+> 
+> # I interpret the above results by saying:
+> # The day after a quiet day is not bullish.
+> 
+> # I start with another English question:
+> # If sp500 is down, is that bullish?
+> 
+> # Next, I define 'down':
+> # down means that -4.0 &lt; pctlag1 &lt; -1.0
+> 
+> # Then I build a predicate:
+> downpred1 = (-4.0 &lt; csv_df$pctlag1)
+> downpred2 = (csv_df$pctlag1 &lt; -1.0)
+> downpred3 = downpred1 & downpred2
+> 
+> # Next, I apply the predicate:
+> down_df       = csv_df[downpred3, ]
+> dayafter_down = down_df$pctlead
+> 
+> # Then I report the results:
+> mean(dayafter_down)
+[1] 0.04605212
+> median(dayafter_down)
+[1] 0.1095
+> mean(csv_df$pctlead)
+[1] 0.03686016
+> median(csv_df$pctlead)
+[1] 0.052
+> 
+> mean(dayafter_down)   > mean(csv_df$pctlead)
+[1] TRUE
+> median(dayafter_down) > median(csv_df$pctlead)
+[1] TRUE
+> 
+> # I interpret the above results by saying:
+> # The day after a down day is bullish.
+> 
+> # I start with another English question:
+> # If sp500 is up, is that bullish?
+> 
+> # Next, I define 'up':
+> # up means that 1.0 &lt; pctlag1 &lt; 4.0
+> 
+> # Then I build a predicate:
+> uppred1 = (1.0 &lt; csv_df$pctlag1)
+> uppred2 = (csv_df$pctlag1 &lt; 4.0)
+> uppred3 = uppred1 & uppred2
+> 
+> # Next, I apply the predicate:
+> up_df       = csv_df[uppred3, ]
+> dayafter_up = up_df$pctlead
+> 
+> # Then I report the results:
+> mean(dayafter_up)
+[1] 0.07573379
+> median(dayafter_up)
+[1] 0.039
+> mean(csv_df$pctlead)
+[1] 0.03686016
+> median(csv_df$pctlead)
+[1] 0.052
+> 
+> mean(dayafter_up)   > mean(csv_df$pctlead)
+[1] TRUE
+> median(dayafter_up) > median(csv_df$pctlead)
+[1] FALSE
+> 
+> # I interpret the above results by saying:
+> # The day after an up day is unpredictable.
+> 
+r5@al78:~/tsds/public/class05 $ 
+r5@al78:~/tsds/public/class05 $
+</code>

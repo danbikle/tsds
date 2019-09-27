@@ -1,0 +1,75 @@
+<code class='bash'>
+ann@ub81:~ $ ruby -v
+ruby 1.9.3p484 (2013-11-22 revision 43786) [x86_64-linux]
+ann@ub81:~ $ git clone https://github.com/rbenv/rbenv.git      .rbenv
+Cloning into '.rbenv'...
+remote: Counting objects: 2500, done.        
+remote: Total 2500 (delta 0), reused 0 (delta 0), pack-reused 2500        
+Receiving objects: 100% (2500/2500), 454.42 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (1554/1554), done.
+Checking connectivity... done.
+ann@ub81:~ $ git clone https://github.com/rbenv/ruby-build.git .rbenv/plugins/ruby-build
+Cloning into '.rbenv/plugins/ruby-build'...
+remote: Counting objects: 6523, done.        
+remote: Total 6523 (delta 0), reused 0 (delta 0), pack-reused 6523        
+Receiving objects: 100% (6523/6523), 1.27 MiB | 1.62 MiB/s, done.
+Resolving deltas: 100% (3750/3750), done.
+Checking connectivity... done.
+ann@ub81:~ $ echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+ann@ub81:~ $
+ann@ub81:~ $ echo 'eval "$(rbenv init -)"'               >> ~/.bashrc
+ann@ub81:~ $
+ann@ub81:~ $ bash
+ann@ub81:~ $ 
+ann@ub81:~ $ rbenv
+rbenv 1.0.0-21-g9fdce5d
+Usage: rbenv &lt;command> [&lt;args>]
+
+Some useful rbenv commands are:
+   commands    List all available rbenv commands
+   local       Set or show the local application-specific Ruby version
+   global      Set or show the global Ruby version
+   shell       Set or show the shell-specific Ruby version
+   install     Install a Ruby version using ruby-build
+   uninstall   Uninstall a specific Ruby version
+   rehash      Rehash rbenv shims (run this after installing executables)
+   version     Show the current Ruby version and its origin
+   versions    List all Ruby versions available to rbenv
+   which       Display the full path to an executable
+   whence      List all Ruby versions that contain the given executable
+
+See `rbenv help &lt;command>' for information on a specific command.
+For full documentation, see: https://github.com/rbenv/rbenv#readme
+ann@ub81:~ $ 
+ann@ub81:~ $ 
+ann@ub81:~ $ rbenv versions
+* system (set by /home/ann/.rbenv/version)
+ann@ub81:~ $ 
+
+ann@ub81:~ $ 
+ann@ub81:~ $ rbenv install 2.3.1
+Downloading ruby-2.3.1.tar.bz2...
+-> https://cache.ruby-lang.org/pub/ruby/2.3/ruby-2.3.1.tar.bz2
+Installing ruby-2.3.1...
+Installed ruby-2.3.1 to /home/ann/.rbenv/versions/2.3.1
+
+ann@ub81:~ $ 
+ann@ub81:~ $ rbenv global  2.3.1
+ann@ub81:~ $ gem install bundler
+Fetching: bundler-1.12.5.gem (100%)
+Successfully installed bundler-1.12.5
+1 gem installed
+ann@ub81:~ $ 
+ann@ub81:~ $ ruby -v
+ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-linux]
+ann@ub81:~ $ 
+ann@ub81:~ $ 
+
+ann@ub81:~ $ 
+ann@ub81:~ $ rbenv versions
+  system
+* 2.3.1 (set by /home/ann/.rbenv/version)
+ann@ub81:~ $ 
+ann@ub81:~ $ 
+
+</code>

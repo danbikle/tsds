@@ -1,0 +1,11 @@
+<code class='bash'>
+cd ~/Downloads/
+sudo dpkg -i cuda-repo-ubuntu1604-8-0-local_8.0.44-1_amd64.deb
+sudo apt-get update
+sudo apt-get install cuda
+
+tar zxvf cudnn-8.0-linux-x64-v5.0-ga.tgz
+sudo rsync -av cuda/ /usr/local/cuda/
+ls -la /usr/local/cuda/include/cudnn.h
+ls -la /usr/local/cuda/lib64/libcudnn*
+</code>

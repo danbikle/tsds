@@ -1,0 +1,178 @@
+<code class='bash'>
+tsds4@ub100:~/tsds/public/class05 $ 
+tsds4@ub100:~/tsds/public/class05 $ R -f moy_hist.r 
+
+R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # moy_hist.r
+> 
+> # This script should sum pctlead and groupby month of year
+> # This script should sum pctlead and groupby day   of week
+> # Demo:
+> # R -f moy_hist.r
+> # or
+> # source('moy_hist.r')
+> 
+> csv_l  = read.csv('http://www.spy611.com/csv/allpredictions.csv')
+> summary(csv_l)
+        cdate            cp            pctlead             pctlag1         
+ 1981-01-02:   1   Min.   : 102.4   Min.   :-20.46700   Min.   :-20.46700  
+ 1981-01-05:   1   1st Qu.: 333.9   1st Qu.: -0.45700   1st Qu.: -0.45700  
+ 1981-01-06:   1   Median : 937.2   Median :  0.04800   Median :  0.04850  
+ 1981-01-07:   1   Mean   : 903.7   Mean   :  0.03757   Mean   :  0.03762  
+ 1981-01-08:   1   3rd Qu.:1314.7   3rd Qu.:  0.56075   3rd Qu.:  0.56075  
+ 1981-01-09:   1   Max.   :2459.3   Max.   : 11.58000   Max.   : 11.58000  
+ (Other)   :9208                                                           
+    pctlag2             pctlag4            pctlag8            pctlag16       
+ Min.   :-24.57100   Min.   :-28.5130   Min.   :-29.4150   Min.   :-30.6030  
+ 1st Qu.: -0.68600   1st Qu.: -0.9460   1st Qu.: -1.1867   1st Qu.: -1.3798  
+ Median :  0.10600   Median :  0.2545   Median :  0.4440   Median :  0.8425  
+ Mean   :  0.07486   Mean   :  0.1480   Mean   :  0.2925   Mean   :  0.5847  
+ 3rd Qu.:  0.87700   3rd Qu.:  1.3040   3rd Qu.:  1.8590   3rd Qu.:  2.7927  
+ Max.   : 14.91700   Max.   : 17.9740   Max.   : 16.2380   Max.   : 19.7810  
+                                                                             
+   actual_dir          prob_lr          pdir_lr            eff1d_lr        
+ Min.   :-1.00000   Min.   :0.0010   Min.   :-1.00000   Min.   :-10.78900  
+ 1st Qu.:-1.00000   1st Qu.:0.4760   1st Qu.:-1.00000   1st Qu.: -0.48100  
+ Median : 1.00000   Median :0.4990   Median :-1.00000   Median :  0.01800  
+ Mean   : 0.06251   Mean   :0.5007   Mean   :-0.01867   Mean   :  0.03994  
+ 3rd Qu.: 1.00000   3rd Qu.:0.5260   3rd Qu.: 1.00000   3rd Qu.:  0.54475  
+ Max.   : 1.00000   Max.   :0.9900   Max.   : 1.00000   Max.   : 20.46700  
+                                                                           
+ recent_eff_lr              accuracy_lr      pdir_nb           eff1d_nb     
+ Min.   :-4.22100   False Negative:2430   Min.   :-1.0000   Min.   :-9.099  
+ 1st Qu.:-0.20600   False Positive:2057   1st Qu.:-1.0000   1st Qu.:-0.498  
+ Median : 0.02300   True Negative :2268   Median :-1.0000   Median :-0.004  
+ Mean   : 0.04016   True Positive :2459   Mean   :-0.2724   Mean   : 0.034  
+ 3rd Qu.: 0.27600                         3rd Qu.: 1.0000   3rd Qu.: 0.530  
+ Max.   : 6.34700                         Max.   : 1.0000   Max.   :20.467  
+                                                                            
+ recent_eff_nb              accuracy_nb        lead              rdelta        
+ Min.   :-3.93800   False Negative:3089   Min.   :-106.850   Min.   :-90.1700  
+ 1st Qu.:-0.22200   False Positive:1546   1st Qu.:  -2.640   1st Qu.: -3.0500  
+ Median : 0.00000   True Negative :2779   Median :   0.230   Median : -0.0100  
+ Mean   : 0.03299   True Positive :1800   Mean   :   0.245   Mean   :  0.3317  
+ 3rd Qu.: 0.26300                         3rd Qu.:   3.658   3rd Qu.:  3.2350  
+ Max.   : 4.67200                         Max.   : 104.130   Max.   :106.8500  
+                                                                               
+     gdelta              red             green            allred      
+ Min.   :-91.5900   Min.   : 118.3   Min.   : 109.3   Min.   : 123.8  
+ 1st Qu.: -2.9600   1st Qu.: 338.8   1st Qu.: 325.6   1st Qu.: 228.5  
+ Median :  0.0700   Median : 949.8   Median : 899.5   Median :1081.2  
+ Mean   :  0.3501   Mean   : 916.9   Mean   : 917.7   Mean   :1441.1  
+ 3rd Qu.:  3.3600   3rd Qu.:1377.1   3rd Qu.:1422.3   3rd Qu.:2593.3  
+ Max.   :106.8500   Max.   :2461.0   Max.   :2464.8   Max.   :3416.5  
+                                                                      
+    allgreen     
+ Min.   : 136.3  
+ 1st Qu.: 372.4  
+ Median : 876.6  
+ Mean   :1257.1  
+ 3rd Qu.:2164.3  
+ Max.   :3378.2  
+                 
+> 
+> # I should convert my list into a Data Frame:
+> csv1_df = data.frame(csv_l)
+> 
+> # I should sort it by cdate ascending:
+> csv2_df = csv1_df[order(csv1_df$cdate),]
+> 
+> # For 30 years, I should get cdate and cp:
+> len0_i  = length(csv2_df$cp)
+> start_i = (len0_i - 252*30)
+> csv3_df = csv2_df[c(start_i:len0_i), c("cdate","cp")]
+> 
+> # I should shift the cp column to lead me towards pctlead.
+> # Pandas has shift.
+> # In R I need to work for it:
+> len1_i        = length(csv3_df$cp)
+> lastp_f       = csv3_df$cp[len1_i]
+> lead0_v       = c(csv3_df$cp, c(lastp_f)) # concatenation demo
+> lead_v        = lead0_v[2:(len1_i+1)]
+> csv3_df$leadp = lead_v
+> 
+> # I should calculate pctlead:
+> csv3_df$pctlead = 100.0*(csv3_df$leadp - csv3_df$cp)/csv3_df$cp
+> 
+> # I should create two date-features:
+> csv3_df$moy = format(as.Date(csv3_df$cdate),"%m")
+> csv3_df$dow = format(as.Date(csv3_df$cdate),"%w")
+> 
+> # Report:
+> head(csv3_df)
+          cdate     cp  leadp     pctlead moy dow
+1654 1987-07-17 314.59 311.39 -1.01719699  07   5
+1655 1987-07-20 311.39 308.55 -0.91203956  07   1
+1656 1987-07-21 308.55 308.47 -0.02592773  07   2
+1657 1987-07-22 308.47 307.81 -0.21395922  07   3
+1658 1987-07-23 307.81 309.27  0.47431857  07   4
+1659 1987-07-24 309.27 310.65  0.44621205  07   5
+> tail(csv3_df)
+          cdate      cp   leadp     pctlead moy dow
+9209 2017-07-07 2425.18 2427.43  0.09277662  07   5
+9210 2017-07-10 2427.43 2425.53 -0.07827208  07   1
+9211 2017-07-11 2425.53 2443.25  0.73056198  07   2
+9212 2017-07-12 2443.25 2447.83  0.18745523  07   3
+9213 2017-07-13 2447.83 2459.27  0.46735272  07   4
+9214 2017-07-14 2459.27 2459.27  0.00000000  07   5
+> 
+> # I should use aggregate() to sum(pctlead) groupby Month-of-Year:
+> agg_moy = aggregate(pctlead ~ moy, csv3_df, sum)
+> print('Sum of pctlead groupby Month-of-Year:')
+[1] "Sum of pctlead groupby Month-of-Year:"
+> print(agg_moy)
+   moy    pctlead
+1   01   7.783017
+2   02   6.675340
+3   03  44.398632
+4   04  57.021395
+5   05  23.011493
+6   06   2.478301
+7   07  21.248582
+8   08 -24.041308
+9   09  -6.173659
+10  10  27.647726
+11  11  28.610158
+12  12  67.390240
+> 
+> # I should use aggregate() to sum(pctlead) groupby Day-of-Week:
+> agg_dow = aggregate(pctlead ~ dow, csv3_df, sum)
+> print('Sum of pctlead groupby Day-of-Week:')
+[1] "Sum of pctlead groupby Day-of-Week:"
+> print(agg_dow)
+  dow  pctlead
+1   1 88.82832
+2   2 80.84050
+3   3 31.38950
+4   4  9.93739
+5   5 45.05420
+> 
+> # I should create a plot window of 2 rows and one col:
+> par(mfrow = c(2,1))
+> 
+> plot(agg_moy$pctlead ~ agg_moy$moy, type="h", col="blue", lwd=10)
+> grid()
+> 
+> plot(agg_dow$pctlead ~ agg_dow$dow, type="h", col="darkgreen", lwd=10)
+> grid()
+> 
+tsds4@ub100:~/tsds/public/class05 $ 
+tsds4@ub100:~/tsds/public/class05 $
+</code>

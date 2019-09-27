@@ -1,0 +1,57 @@
+<code class='bash'>
+tsds@nia111:~ $ 
+tsds@nia111:~ $ ssh dig10
+Warning: Permanently added '138.68.11.196' (ECDSA) to the list of known hosts.
+Welcome to Ubuntu 16.04.1 LTS (GNU/Linux 4.4.0-31-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+0 packages can be updated.
+0 updates are security updates.
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+root@ubuntu-2gb-sfo2-01:~# 
+root@ubuntu-2gb-sfo2-01:~# df -h
+Filesystem      Size  Used Avail Use% Mounted on
+udev            994M     0  994M   0% /dev
+tmpfs           201M  620K  200M   1% /run
+/dev/vda1        40G  1.1G   37G   3% /
+tmpfs          1001M     0 1001M   0% /dev/shm
+tmpfs           5.0M     0  5.0M   0% /run/lock
+tmpfs          1001M     0 1001M   0% /sys/fs/cgroup
+tmpfs           100K     0  100K   0% /run/lxcfs/controllers
+tmpfs           201M     0  201M   0% /run/user/0
+root@ubuntu-2gb-sfo2-01:~# 
+root@ubuntu-2gb-sfo2-01:~# ifconfig
+eth0      Link encap:Ethernet  HWaddr 04:01:3e:54:8d:01  
+          inet addr:138.68.11.196  Bcast:138.68.15.255  Mask:255.255.240.0
+          inet6 addr: fe80::601:3eff:fe54:8d01/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:199 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:257 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:33405 (33.4 KB)  TX bytes:32795 (32.7 KB)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:160 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:160 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1 
+          RX bytes:11840 (11.8 KB)  TX bytes:11840 (11.8 KB)
+
+root@ubuntu-2gb-sfo2-01:~# 
+root@ubuntu-2gb-sfo2-01:~# shutdown -h now
+Connection to 138.68.11.196 closed by remote host.
+Connection to 138.68.11.196 closed.
+tsds@nia111:~ $ 
+</code>

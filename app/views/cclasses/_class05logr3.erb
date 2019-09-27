@@ -1,0 +1,79 @@
+<code class='bash'>
+r5@al78:~/tsds/public/class05 $ 
+r5@al78:~/tsds/public/class05 $ R -f logreg.r 
+
+R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # logreg.r
+> 
+> # This script should do logistic regression.
+> # Demo:
+> # R -f logreg.r
+> 
+> # As of today, allpredictions.csv contains 8955 rows.
+> # 8900 - 2600 is 6300 is 6300 days is 25 years.
+> # I should learn from 25 years of data:
+> csv_l = read.csv('http://www.spy611.com/csv/allpredictions.csv')[c(2600:8900) , ]
+> 
+> labels = (csv_l$pctlead > median(csv_l$pctlead))
+> 
+> # Now I should learn:
+> mymodel = glm(labels ~ pctlag1 + pctlag2 + pctlag4 + pctlag8 + pctlag16, data=csv_l, family='binomial')
+> mymodel
+
+Call:  glm(formula = labels ~ pctlag1 + pctlag2 + pctlag4 + pctlag8 + 
+    pctlag16, family = "binomial", data = csv_l)
+
+Coefficients:
+(Intercept)      pctlag1      pctlag2      pctlag4      pctlag8     pctlag16  
+   0.005473    -0.046613    -0.028793     0.024243    -0.043266     0.007399  
+
+Degrees of Freedom: 6300 Total (i.e. Null);  6295 Residual
+Null Deviance:	    8735 
+Residual Deviance: 8709 	AIC: 8721
+> 
+> # The above model assumes that each label relies somewhat on pctlag1,2,4,8,16
+> # The model returns the probability that label is TRUE
+> # If the probability is above 0.51 I consider that a bullish prediction.
+> # If the probability is below 0.49 I consider that a bearish prediction.
+> 
+> # Now I should predict one observation (quiet day):
+> just1x = list(pctlag1=0.001,pctlag2=0.001,pctlag4=0.001,pctlag8=0.001,pctlag16=0.001)
+> updown_prediction = predict(mymodel,just1x, type='response')
+> updown_prediction
+        1 
+0.5013464 
+> 
+> # Now I should predict one observation (strong down day):
+> just1x = list(pctlag1=-2.1,pctlag2=-2.2,pctlag4=-2.4,pctlag8=-2.8,pctlag16=-2.16)
+> updown_prediction = predict(mymodel,just1x, type='response')
+> updown_prediction
+        1 
+0.5532189 
+> 
+> # Now I should predict one observation (strong up day):
+> just1x = list(pctlag1=2.1,pctlag2=2.2,pctlag4=2.4,pctlag8=2.8,pctlag16=2.16)
+> updown_prediction = predict(mymodel,just1x, type='response')
+> updown_prediction
+       1 
+0.449488 
+> 
+r5@al78:~/tsds/public/class05 $ 
+r5@al78:~/tsds/public/class05 $
+</code>

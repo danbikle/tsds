@@ -1,0 +1,41 @@
+<code class='html'>
+&lt;html>
+  &lt;script src='d3.v4.js'>&lt;/script>
+&lt;project name="Build" default="compress">
+  &lt;target name="concatenate">
+    &lt;concat destfile="../build/convnet.js" encoding="UTF-8" outputencoding="UTF-8" fixlastline="true">
+      &lt;filelist id="filelist" dir="../src">
+        &lt;file name="convnet_init.js"/>
+        &lt;file name="convnet_util.js" />
+        &lt;file name="convnet_vol.js" />
+        &lt;file name="convnet_vol_util.js" />
+        &lt;file name="convnet_layers_dotproducts.js" />
+        &lt;file name="convnet_layers_pool.js" />
+        &lt;file name="convnet_layers_input.js" />
+        &lt;file name="convnet_layers_loss.js" />
+        &lt;file name="convnet_layers_nonlinearities.js" />
+        &lt;file name="convnet_layers_dropout.js" />
+        &lt;file name="convnet_layers_normalization.js" />
+        &lt;file name="convnet_net.js" />
+        &lt;file name="convnet_trainers.js" />
+        &lt;file name="convnet_magicnet.js" />
+        &lt;file name="convnet_export.js" />
+      &lt;/filelist>
+    &lt;/concat>
+  &lt;/target>
+  &lt;target name="compress" depends="concatenate" description="Minify convnet.js to convnet-min.js">
+    &lt;apply executable="java" parallel="false">
+      &lt;filelist dir="../build" files="convnet.js" />
+      &lt;arg line="-jar" />
+      &lt;arg path="yuicompressor-2.4.8.jar" />
+      &lt;srcfile />
+      &lt;arg line="-o" />
+      &lt;mapper type="glob" from="*.js" to="../build/*-min.js" />
+      &lt;targetfile />
+    &lt;/apply>
+  &lt;/target>
+&lt;/project>
+
+&lt;/html>
+
+</code>

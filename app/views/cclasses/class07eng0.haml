@@ -1,0 +1,27 @@
+%h2 Class07 Lab Answer:
+%h2 Install engines package with --save option
+
+%p This was easy.
+
+%p The syntax below added a declaration to ~/d1d2/package.json
+
+%p The declaration is useful if I want to run this app on heroku.com
+
+%p Also the syntax added software to the node_modules folder.
+
+%p And, I added an entry to .gitignore which will prevent git from storing node_modules.
+
+%p Software in node_modules should not be shared between laptops.
+
+%p It is better I fill node_modules with npm rather than from git.
+
+.syntax
+  %pre
+    %code.bash
+      cd ~/d1d2
+      echo node_modules >> .gitignore
+      npm install engines --save
+
+%p
+  %a(href='class07#lab')
+    Class07 Lab

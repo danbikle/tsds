@@ -1,0 +1,43 @@
+%h2 Class06 Lab Answer:
+%h2 Enhance ~/c6/cnj16.html so it loads ConvNetJS files.
+
+%p This required some knowledge about JavaScript.
+
+%p I found the files I wanted in a folder called ~/c6/convnetjs/src/.
+
+%p You can see them here:
+
+%p
+  %a(href='https://github.com/karpathy/convnetjs/tree/master/src' target='x')
+    https://github.com/karpathy/convnetjs/tree/master/src
+
+%p When I first attempted this lab I loaded the files by alphabetical order.
+
+%p That was a mistake.
+
+%p I found the correct order here:
+
+%p
+  %a(href='https://github.com/karpathy/convnetjs/blob/master/compile/build.xml' target='x')
+    https://github.com/karpathy/convnetjs/blob/master/compile/build.xml
+
+
+%p So, I copied the above file into  ~/c6/cnj16.html
+
+.syntax
+  %pre
+    =render 'class06cnj16d'
+%p Then I enhanced it:
+.syntax
+  %pre
+    =render 'class06cnj16e'
+
+%p Next, I copied the ConvNetJS JavaScript into the same folder as ~/c6/cnj16.html
+
+.syntax
+  %pre
+    %code.bash cp ~/c6/convnetjs/src/*js ~/c6/
+    
+%p
+  %a(href='class06#lab')
+    Class06 Lab

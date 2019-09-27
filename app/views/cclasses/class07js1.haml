@@ -1,0 +1,40 @@
+%h2 Class07 Lab Answer:
+%h2 Find code which builds first histogram
+
+%p This was easy to find; it is commented.
+
+%img(src='/class07/js1.png')
+
+%p Another way to find it is study the HTML inside of index.html
+
+%p I see three div-elements which hold the histograms:
+
+.syntax
+  %pre
+    =render 'class07js1a'
+
+%p The corresponding id-attributes are listed below:
+
+.syntax
+  %pre
+    %code.javascript
+      id='day1histogram'
+      id='day2histogram'
+      id='d1d2histogram'
+
+%p The JavaScript code which builds first histogram should be working with a string which looks like this:
+
+.syntax
+  %pre
+    %code.javascript '#day1histogram'
+
+%p I see that string inside a script element:
+
+.syntax
+  %pre
+    =render 'class07js1b'
+
+%hr/
+%p
+  %a(href='class07#lab')
+    Class07 Lab

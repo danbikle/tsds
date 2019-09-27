@@ -1,0 +1,95 @@
+<code class='html'>
+&lt;html>
+  &lt;script src="allpredictions.js">&lt;/script>
+
+  &lt;script src="d3.v4.js">&lt;/script>
+
+  &lt;script src="convnet_init.js">&lt;/script>
+  &lt;script src="convnet_util.js" >&lt;/script>
+  &lt;script src="convnet_vol.js" >&lt;/script>
+  &lt;script src="convnet_vol_util.js" >&lt;/script>
+  &lt;script src="convnet_layers_dotproducts.js" >&lt;/script>
+  &lt;script src="convnet_layers_pool.js" >&lt;/script>
+  &lt;script src="convnet_layers_input.js" >&lt;/script>
+  &lt;script src="convnet_layers_loss.js" >&lt;/script>
+  &lt;script src="convnet_layers_nonlinearities.js" >&lt;/script>
+  &lt;script src="convnet_layers_dropout.js" >&lt;/script>
+  &lt;script src="convnet_layers_normalization.js" >&lt;/script>
+  &lt;script src="convnet_net.js" >&lt;/script>
+  &lt;script src="convnet_trainers.js" >&lt;/script>
+  &lt;script src="convnet_magicnet.js" >&lt;/script>
+  &lt;script src="convnet_export.js" >&lt;/script>
+  &lt;script>
+    /* The allpredictions.js file gives me a giant string called mycsv_s.
+       I use D3.js to transform mycsv_s into an array called: mycsv_a.
+    */
+    var mycsv_a = d3.csvParse(mycsv_s)
+    var myvol = new convnetjs.Vol(1,1,1)
+    // I should learn from observations 6900 to 8900
+    traindata_a = []
+    labels_a = []
+    var fnum_i   = 5 // Number of features
+    for (var i   = 6900; i &lt; 8900; i++) {
+      var row    = mycsv_a[i]
+      var obsv_v = new convnetjs.Vol(1,1,fnum_i)
+      obsv_v[0]  = +row.pctlag1
+      obsv_v[1]  = +row.pctlag2
+      obsv_v[2]  = +row.pctlag4
+      obsv_v[3]  = +row.pctlag8
+      obsv_v[4]  = +row.pctlag16
+      traindata_a.push(obsv_v)
+      if (+row.pctlead &lt; 0) {
+        labels_a.push(0)
+      } else {
+        labels_a.push(1)
+      }
+    }
+    // I have traindata_a and labels_a, I should train.
+    var opts = {}
+    opts.num_candidates = 4
+    opts.num_folds      = 4
+    opts.num_epochs     = 20
+    opts.ensemble_size  = 6
+    opts.neurons_min    = 3    
+    opts.neurons_max    = 8
+    opts.hlayers        = 6
+    console.log('go go go')
+
+    var magicNet = new convnetjs.MagicNet(traindata_a, labels_a, opts)
+    magicNet.onFinishFold(finishedFold)
+    magicNet.onFinishBatch(finishedBatch)
+    stepcntr = 0
+    setInterval(function(){
+      magicNet.step()
+      stepcntr++
+      if(stepcntr % 100 == 0) {
+        console.log(100)
+      }
+    })
+    
+    function finishedFold(){
+      console.log('I finishedFold')
+    }    
+    function finishedBatch() {
+      console.log('I finishedBatch, magicNet model is built.')
+      var my_json = magicNet.toJSON()
+      // Typically here I save my_json to a db so I can use it later.
+      // Now that I have a model I can predict.
+      var obsv_v = new convnetjs.Vol(1,1,5)
+      // predict day after a down day:
+      obsv_v[0]  = -1.1
+      obsv_v[1]  = -1.1
+      obsv_v[2]  = -1.1
+      obsv_v[3]  = -1.1
+      obsv_v[4]  = -1.1
+      var myprediction = magicNet.predict(obsv_v)
+      console.log('myprediction:')
+      console.log(myprediction)
+      'JavaScript has no exit, this will loop until you stop it.'
+    }
+      
+    'bye'
+  &lt;/script>
+&lt;/html>
+
+</code>

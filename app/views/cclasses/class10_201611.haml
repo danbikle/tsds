@@ -1,0 +1,186 @@
+%h1 Class10
+%h2 Dan's Final Project [2016 Nov]
+
+%p The purpose of this project is to install TensorFlow with GPU support on an Ubuntu 16 Host.
+
+%p Specifically, I installed this software:
+%ul
+  %li Cuda 8.0
+  %li cuDNN 5
+  %li TensorFlow 0.11
+
+%p I started by buying a windows laptop with a GPU in it.
+%p
+  %a(href='http://www.costco.com/Acer-Aspire-V15-Laptop---Intel-Core-i5---4K-Ultra-HD---2GB-Graphics.product.100278251.html' target='x') Acer-Aspire-V15-Laptop
+  
+.syntax
+  %pre
+    Acer Aspire V15 Laptop - Intel Core i5 - 4K Ultra HD - 2GB Graphics
+    
+    Item #1048156
+    Your Price 599.97$
+    
+    Shipping & Handling Included*
+    
+    Processor & Memory:
+    
+    Intel® Core™ i5-6300HQ Processor at 2.3GHz
+    8GB DDR4 (2-DIMM) RAM
+    
+    Drives:
+    
+    1TB 5400RPM SATA Hard Drive
+    No Optical Drive
+    
+    Operating System:
+    
+    Microsoft® Windows 10
+    
+    Graphics & Video:
+    
+    15.6" 4K Ultra HD Widescreen LED-backlit (3840 x 2160) Display
+    2GB NVIDIA GeForce 950M Graphics
+
+%p
+  Notice that the above laptop has: 
+  %a(href='http://www.google.com/search?q=NVIDIA+GeForce+950M' target='x')
+    NVIDIA GeForce 950M
+
+%p That is a GPU. We want that.
+
+%p If you obtain the above laptop, the next step is to replace Windows10 with Ubuntu 16.
+
+%p Alert me if you want help with that.
+
+%p After I replaced windows with Ubuntu 16, I studied the URL listed below:
+
+%p
+  %a(href='https://www.tensorflow.org/versions/r0.11/get_started/os_setup.html#optional-install-cuda-gpus-on-linux' target='x')
+    https://www.tensorflow.org/versions/r0.11/get_started/os_setup.html#optional-install-cuda-gpus-on-linux
+
+%p Next, I visited this URL:
+%p
+  %a(href='https://developer.nvidia.com/cuda-downloads' target='x')
+    https://developer.nvidia.com/cuda-downloads
+
+%p I navigated to this page:
+
+%img(src='/class10/cuda8.png')
+%hr/
+
+%p I downloaded this:
+%p cuda-repo-ubuntu1604-8-0-local_8.0.44-1_amd64.deb
+
+%p Next, I visited this URL:
+%p
+  %a(href='https://developer.nvidia.com/cudnn' target='x')
+    https://developer.nvidia.com/cudnn
+%p I registered.
+%p I navigated to this page:
+%img(src='/class10/cudnn50.png')
+%hr/
+%p I downloaded this:
+%p cudnn-8.0-linux-x64-v5.0-ga.tgz
+
+
+%p I studied this:
+%p
+  %a(href='http://docs.nvidia.com/cuda/index.html' target='x')
+    http://docs.nvidia.com/cuda/index.html (CUDA Toolkit Documentation v8.0 )
+
+%p I studied this:
+%p
+  %a(href='http://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html' target='x')
+    http://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html
+
+%p I ran a shell command to 'see' the GPU in my laptop:
+.syntax
+  %pre
+    %code.bash lspci | grep -i nvidia
+
+%p I saw it:
+
+.syntax
+  %pre
+    %code.bash
+      dan@acer2:~/tsds/public/class10 $ 
+      dan@acer2:~/tsds/public/class10 $ lspci | grep -i nvidia
+      01:00.0 3D controller: NVIDIA Corporation GM107M [GeForce GTX 950M] (rev a2)
+      dan@acer2:~/tsds/public/class10 $ 
+      dan@acer2:~/tsds/public/class10 $ 
+
+%p I enhanced Ubuntu with some shell commands:
+
+.syntax
+  %pre
+    =render 'class10tf10'
+
+%p I ran some shell commands to install the software I had downloaded earlier:
+
+.syntax
+  %pre
+    =render 'class10tf11'
+
+%p I enhanced my env-variables:
+
+.syntax
+  %pre
+    %code.bash
+      echo 'export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64"' >> ~/.bashrc
+      echo 'export CUDA_HOME=/usr/local/cuda' >> ~/.bashrc
+
+%p I rebooted the host:
+
+.syntax
+  %pre
+    %code.bash sudo shutdown -r now
+
+%p I ensured that Anaconda was out of the way:
+
+.syntax
+  %pre
+    %code.bash rm -rf ~/anaconda3/
+
+%p I installed recent copy of Python to a folder under my home-folder:
+
+.syntax
+  %pre
+    =render 'class10tf12'
+
+%p I verified that I was using Python 3.5.2 rather than the system 2.7 Python:
+
+.syntax
+  %pre
+    =render 'class10tf13'
+
+%p Next, I installed a TensorFlow package which is designed to link with the Cuda software:
+
+.syntax
+  %pre
+    %code.bash pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-0.11.0-cp35-cp35m-linux_x86_64.whl
+
+%p Then I wrote a simple script:
+
+.syntax
+  %pre
+    =render 'class10tf14'
+
+%p I ran the above script and saw this:
+
+.syntax
+  %pre
+    =render 'class10tf15'
+
+%p It worked!
+%p Yay!!
+
+%p The next step is to write some machine learning scripts in a simple benchmarking environment.
+%p I should run some tests to see if my GeForce GTX 950M GPU will run my scripts faster than my i7-CPU.
+
+
+
+
+
+
+
+

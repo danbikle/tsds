@@ -1,0 +1,20 @@
+<code class='bash'>
+cd ~
+
+sudo apt-get update
+
+sudo apt-get upgrade
+
+sudo apt-get install autoconf bison build-essential libssl-dev libyaml-dev \
+libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3       \
+libgdbm-dev libsqlite3-dev gitk postgresql postgresql-server-dev-all  \
+libpq-dev emacs wget curl chromium-browser openssh-server aptitude    \
+ruby ruby-dev sqlite3
+
+git clone https://github.com/danbikle/spy611v2
+
+cd spy611v2
+bundle install
+
+script/railss2016.bash
+</code>

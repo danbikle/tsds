@@ -1,0 +1,54 @@
+%h2 Class08 Lab Answer:
+%h2 Build a model which overfits and then build prediction visualizations which show the overfitting
+
+%p I have three ways to build a model which over-fits:
+%ul
+  %li Use a flexible learning algorithm (Logistic Regression is flexible enough to over-fit).
+  %li Learn from a small number of observations to build the model.
+  %li Add too many features to the model.
+
+%p I use the above three ideas to build a model which over-fits:
+%ul
+  %li I used Logistic Regression to build the model.
+  %li The model learned only from observations in December 2015.
+  %li
+    The model contained five features:
+    %ul
+      %li pctlag1
+      %li pctlag2
+      %li pctlag4
+      %li pctlag8
+      %li pctlag16
+
+
+.syntax
+  %pre
+    =render 'class08of1'
+
+%hr/
+
+%p The model does well on data it learned from.
+%p Accuracy:
+%img(src='/class08/of1.png')
+%hr/
+%p Effectiveness:
+%img(src='/class08/of2.png')
+
+%hr/
+
+%p Due to over-fitting, The model does poorly on 2016 data.
+%p Accuracy:
+
+%img(src='/class08/of3.png')
+%hr/
+%p Effectiveness:
+%img(src='/class08/of4.png')
+%hr/
+
+%p So, if I have a model which over-fits, I should see it in two simple visualizations:
+%ul
+  %li Aggregated Accuracy in a stacked bar chart
+  %li Cumulative Effectiveness plotted in a time series
+%p
+  %a(href='class08#lab')
+    Class08 Lab

@@ -1,0 +1,101 @@
+<code class='bash'>r5@al78:~/tsds/public/class05 $ 
+r5@al78:~/tsds/public/class05 $ 
+r5@al78:~/tsds/public/class05 $ R -f linreg.r
+
+R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # linreg.r
+> 
+> # This script should do linear regression.
+> # Demo:
+> # R -f linreg.r
+> 
+> # As of today, allpredictions.csv contains 8955 rows.
+> # 8900 - 2600 is 6300 is 6300 days is 25 years.
+> # I should learn from 25 years of data:
+> csv_l = read.csv('http://www.spy611.com/csv/allpredictions.csv')[c(2600:8900) , ]
+> tail(csv_l)
+          cdate      cp pctlead pctlag1 pctlag2 pctlag4 pctlag8 pctlag16
+8895 2016-04-08 2047.60  -0.274   0.279  -0.922  -0.897  -0.361    1.005
+8896 2016-04-11 2041.99   0.966  -0.274   0.004  -0.155  -1.064    0.069
+8897 2016-04-12 2061.72   1.004   0.966   0.690  -0.239   0.096    0.592
+8898 2016-04-13 2082.42   0.017   1.004   1.980   1.984   0.465    1.502
+8899 2016-04-14 2082.78  -0.098   0.017   1.021   1.718   0.806    1.609
+8900 2016-04-15 2080.73   0.654  -0.098  -0.081   1.897   1.739    2.161
+     actual_dir prob_lr pdir_lr eff1d_lr recent_eff_lr    accuracy_lr pdir_nb
+8895         -1   0.509       1   -0.274         0.248 False Positive      -1
+8896          1   0.513       1    0.966         0.644  True Positive      -1
+8897          1   0.489      -1   -1.004         0.233 False Negative      -1
+8898          1   0.485      -1   -0.017        -0.010 False Negative      -1
+8899         -1   0.495      -1    0.098        -0.046  True Negative      -1
+8900          1   0.498      -1   -0.654        -0.122 False Negative      -1
+     eff1d_nb recent_eff_nb    accuracy_nb  lead rdelta gdelta     red   green
+8895    0.274         0.763  True Negative -5.61   5.61  -5.61 1885.78 2070.04
+8896   -0.966         0.367 False Negative 19.73 -19.73  19.73 1891.39 2064.43
+8897   -1.004        -0.044 False Negative 20.70 -20.70 -20.70 1871.66 2084.16
+8898   -0.017        -0.287 False Negative  0.36  -0.36  -0.36 1850.96 2063.46
+8899    0.098        -0.323  True Negative -2.05   2.05   2.05 1850.60 2063.10
+8900   -0.654        -0.509 False Negative 13.61 -13.61 -13.61 1852.65 2065.15
+      allred allgreen
+8895 3151.22  3219.70
+8896 3156.83  3214.09
+8897 3137.10  3233.82
+8898 3116.40  3213.12
+8899 3116.04  3212.76
+8900 3118.09  3214.81
+> 
+> # Now I should learn:
+> mymodel = lm(pctlead ~ pctlag1 + pctlag2 + pctlag4 + pctlag8 + pctlag16, data=csv_l)
+> mymodel
+
+Call:
+lm(formula = pctlead ~ pctlag1 + pctlag2 + pctlag4 + pctlag8 + 
+    pctlag16, data = csv_l)
+
+Coefficients:
+(Intercept)      pctlag1      pctlag2      pctlag4      pctlag8     pctlag16  
+   0.039641    -0.016140    -0.040487     0.011236    -0.026233     0.004692  
+
+> # The above model assumes that pctlead relies somewhat on pctlag1,2,4,8,16
+> 
+> # Now I should predict one observation (quiet day):
+> just1x = list(pctlag1=0.001,pctlag2=0.001,pctlag4=0.001,pctlag8=0.001,pctlag16=0.001)
+> pctlead_prediction = predict(mymodel,just1x)
+> pctlead_prediction
+        1 
+0.0395742 
+> 
+> # Now I should predict one observation (strong down day):
+> just1x = list(pctlag1=-2.1,pctlag2=-2.2,pctlag4=-2.4,pctlag8=-2.8,pctlag16=-2.16)
+> pctlead_prediction = predict(mymodel,just1x)
+> pctlead_prediction
+        1 
+0.1989594 
+> 
+> # Now I should predict one observation (strong up day):
+> just1x = list(pctlag1=2.1,pctlag2=2.2,pctlag4=2.4,pctlag8=2.8,pctlag16=2.16)
+> pctlead_prediction = predict(mymodel,just1x)
+> pctlead_prediction
+         1 
+-0.1196771 
+> 
+r5@al78:~/tsds/public/class05 $ 
+r5@al78:~/tsds/public/class05 $ 
+r5@al78:~/tsds/public/class05 $
+</code>

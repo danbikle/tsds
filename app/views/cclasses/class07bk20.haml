@@ -1,0 +1,36 @@
+%h2 Class07 Lab Answer:
+%h2 Use a 'Heat-Map' to show pctlead dependence on features.
+
+%p I created and ran a script which looks like this:
+.syntax
+  %pre
+    =render 'class07bk21'
+
+%p It gave me a Heat-Map:
+
+%p
+  %a(href='/class07/hm16.html') hm16.html
+
+%p When I click the above link I should see this:
+
+%img(src='/class07/bk22.png')
+
+%p The top Heat-Map has more green than the bottom Heat-Map.
+
+%p Green shows days where pctlead > 0.0.
+
+%p The top Heat-Map was generated from days where pctlag1 < 0.0.
+
+%p The bottom Heat-Map was generated from days where pctlag1 > 0.0.
+
+%p According to top Heat-Map, if pctlag1 < 0.0 on a Monday in December, then I should buy S&P500 near market-close on Monday.
+
+%p According to bottom Heat-Map, if pctlag1 > 0.0 on a Tuesday in October or November, then I should sell S&P500 near market-close on Tuesday.
+
+%p See for yourself:
+%p
+  %a(href='/class07/hm16.html') hm16.html
+%hr/
+%p
+  %a(href='class07#bokeh')
+    Class07 Lab

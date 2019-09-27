@@ -1,0 +1,136 @@
+<h2>Class05 Lab Answer:</h2>
+<h2> Install R on Ubuntu (or your laptop)</h2>
+
+<p>
+On Ubuntu, it is easy to install R.
+<br />
+<br />
+If I know the password of root, I will type in su to login to root.
+<br />
+
+Then I will type in a shell command:
+<br />
+
+apt-get install r-base r-base-dev
+<br />
+<br />
+
+If I dont know the password of root, I will login to an account which can sudo.
+<br />
+
+Then I will type in a shell command:
+<br />
+
+sudo apt-get install r-base r-base-dev
+<br />
+<br />
+
+Ubuntu should then ask me a question:
+<br />
+
+Do you want to continue? [Y/n]
+<br />
+
+I answer by pressing the enter-key.
+<br />
+
+After a minute or three, Ubuntu will be done installing R.
+<br />
+<br />
+
+Here is a screen dump of me installing R on Ubuntu 16.04:
+</p>
+<div class='syntax'><pre>
+<code class='bash'>r5@al78:~ $ 
+r5@al78:~ $ R
+The program 'R' is currently not installed. To run 'R' please ask your administrator to install the package 'r-base-core'
+r5@al78:~ $ 
+r5@al78:~ $ su
+Password: 
+root@al78:/home/r5# 
+root@al78:/home/r5# apt-get install r-base r-base-dev
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following additional packages will be installed:
+  bzip2-doc cdbs debhelper dh-strip-nondeterminism dh-translations gfortran
+  gfortran-5 intltool libblas-common libblas-dev libblas3 libbz2-dev
+  libfile-stripnondeterminism-perl libgfortran-5-dev libgfortran3 libjpeg-dev
+  libjpeg-turbo8-dev libjpeg8-dev liblapack-dev liblapack3 liblzma-dev
+  libmail-sendmail-perl libpcre3-dev libpcre32-3 libpcrecpp0v5 libpng12-dev
+  libreadline-dev libsys-hostname-long-perl po-debconf python-pkg-resources
+  python-scour python-six r-base-core r-base-html r-cran-boot r-cran-class
+  r-cran-cluster r-cran-codetools r-cran-foreign r-cran-kernsmooth
+  r-cran-lattice r-cran-mass r-cran-matrix r-cran-mgcv r-cran-nlme r-cran-nnet
+  r-cran-rpart r-cran-spatial r-cran-survival r-doc-html r-recommended
+Suggested packages:
+  devscripts dh-make gfortran-multilib gfortran-doc gfortran-5-multilib
+  gfortran-5-doc libgfortran3-dbg liblapack-doc-man liblapack-doc liblzma-doc
+  libmail-box-perl python-setuptools python-rsvg python-cairo ess r-doc-info
+  | r-doc-pdf r-mathlib texlive-base texlive-latex-base
+  texlive-generic-recommended texlive-fonts-recommended texlive-fonts-extra
+  texlive-extra-utils texlive-latex-recommended texlive-latex-extra texinfo
+The following NEW packages will be installed:
+  bzip2-doc cdbs debhelper dh-strip-nondeterminism dh-translations gfortran
+  gfortran-5 intltool libblas-common libblas-dev libblas3 libbz2-dev
+  libfile-stripnondeterminism-perl libgfortran-5-dev libgfortran3 libjpeg-dev
+  libjpeg-turbo8-dev libjpeg8-dev liblapack-dev liblapack3 liblzma-dev
+  libmail-sendmail-perl libpcre3-dev libpcre32-3 libpcrecpp0v5 libpng12-dev
+  libreadline-dev libsys-hostname-long-perl po-debconf python-pkg-resources
+  python-scour python-six r-base r-base-core r-base-dev r-base-html
+  r-cran-boot r-cran-class r-cran-cluster r-cran-codetools r-cran-foreign
+  r-cran-kernsmooth r-cran-lattice r-cran-mass r-cran-matrix r-cran-mgcv
+  r-cran-nlme r-cran-nnet r-cran-rpart r-cran-spatial r-cran-survival
+  r-doc-html r-recommended
+0 upgraded, 53 newly installed, 0 to remove and 43 not upgraded.
+Need to get 52.3 MB of archives.
+After this operation, 115 MB of additional disk space will be used.
+Do you want to continue? [Y/n] 
+Get:1 http://us.archive.ubuntu.com/ubuntu xenial/main amd64 libpcrecpp0v5 amd64 2:8.38-3.1 [15.2 kB]
+
+snip ...
+
+
+Setting up r-base-dev (3.2.3-4) ...
+Processing triggers for libc-bin (2.23-0ubuntu3) ...
+root@al78:/home/r5# 
+root@al78:/home/r5# exit
+exit
+r5@al78:~ $ 
+r5@al78:~ $ R
+
+R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 1.1 + 2.2
+[1] 3.3
+> 
+> q()
+Save workspace image? [y/n/c]: n
+r5@al78:~ $ 
+r5@al78:~ $
+</code>
+</pre>
+</div>
+<p>
+Notice that at the end, I type R to confirm that R is installed.
+</p>
+
+<p>
+<a href='class05#lab'>Class05 Lab</a>
+</p>

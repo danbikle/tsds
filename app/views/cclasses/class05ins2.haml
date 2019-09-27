@@ -1,0 +1,52 @@
+%h2 Class05 Lab Answer:
+%h2 Install package ISLR from CRAN.
+
+%p I did this lab from the command-line.
+
+%p I started the R command-line and typed some syntax:
+
+.syntax
+  %pre
+    %code
+      install.packages("ISLR", repos="http://cran.us.r-project.org")
+
+%p The command-line asked me two questions.
+%p I answered yes to both.
+
+%p Next, I verified that ISLR was installed by typing three lines of syntax:
+
+.syntax
+  %pre
+    %code
+      library(ISLR)
+      myauto = Auto
+      summary(myauto)
+      
+%p I saw this:
+.syntax
+  %pre
+    =render 'class05ins2a'
+
+%p The above output displays some simple facts:
+%ul
+  %li
+    R wants to install packages here:
+    %br/
+    \/usr/local/lib/R/site-library
+  %li
+    R offers nice default behavior when I cannot write to site-library:
+    %br/
+    R creates a personal library here:
+    %br/
+    \~/R/x86_64-pc-linux-gnu-library/3.2
+  %li I did install the ISLR package
+  %li The package gave me access to some data called 'Auto'.
+  %li I was able to copy Auto to myauto.
+  %li R offers three useful functions for visualizing the contents of myauto:
+  %ul
+    %li head(myauto)
+    %li summary(myauto)
+    %li typeof(myauto)
+%p
+  %a(href='class05#lab')
+    Class05 Lab

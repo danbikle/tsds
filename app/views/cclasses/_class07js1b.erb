@@ -1,0 +1,16 @@
+<code class='javascript'>
+      var g1color   = 'steelblue';
+      var graph1    = new Rickshaw.Graph({
+        renderer: 'bar',
+        width:    graph_width, 
+        height:   graph_height,
+        min:      chartmin,
+        max:      chartmax1,
+        element:  document.querySelector("#day1histogram"), 
+        series: [{
+          color: g1color,
+          name:  'Count',
+          data: bluedata
+        }]
+      });
+</code>

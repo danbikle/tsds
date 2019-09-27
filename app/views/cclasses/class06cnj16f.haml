@@ -1,0 +1,42 @@
+%h2 Class06 Lab Answer:
+%h2
+  In cnj16.html, build an array from:
+  %br/
+  http://www.spy611.com/csv/allpredictions.csv
+
+%p This required some knowledge about JavaScript.
+
+%p The JavaScript in my browser has a security feature which prevents me reading most files on my latptop.
+
+%p A security hole I can exploit is to read JavaScript files on my laptop using the script-element.
+
+%p So, I used curl to copy allpredictions.csv to my laptop.
+
+%p Then, I used sed to transform allpredictions.csv into allpredictions.js
+
+%p Next, I used a script-element to read allpredictions.js which serves the data as a giant string.
+
+%p Then, I used D3.js to transform the string into an array.
+
+%p Finally, I used the browser debugger to see the array.
+
+%p The curl and sed commands are listed below:
+
+.syntax
+  %pre
+    =render 'class06cnj16g'
+
+%p The syntax in cnj16.html is listed below:
+
+.syntax
+  %pre
+    =render 'class06cnj16h'
+
+%p I saw the array in my debugger:
+
+%img(src='/class06/cnj16j.png')
+%hr/
+
+%p
+  %a(href='class06#lab')
+    Class06 Lab

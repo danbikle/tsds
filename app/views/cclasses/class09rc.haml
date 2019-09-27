@@ -1,0 +1,46 @@
+%h2 Class09 Lab Answer:
+%h2 Share some HTML across several views in the Rails app
+
+%p The idea behind this lab is simple.
+
+%p I locate a file which is shared across several views.
+
+%p Then I add some syntax to that file.
+
+%p A good file to pick is listed below:
+
+.syntax
+  %pre
+    %code.bash app09/app/views/layouts/_bar_links.haml
+
+%p Also it appears here:
+
+%p
+  %a(href='https://github.com/danbikle/app09/blob/master/app/views/layouts/_bar_links.haml' target='x')
+    https://github.com/danbikle/app09/blob/master/app/views/layouts/_bar_links.haml
+
+%p The above file contains links appearing in several pages of the app.
+
+%p If I add a link to _bar_links.haml, that link should be shared across several views in the Rails app.
+
+%p I can use vi to add a link to _bar_links.haml
+
+%p This:
+
+.syntax
+  %pre
+    =render 'class09rc1'
+
+%p Becomes this:
+
+.syntax
+  %pre
+    =render 'class09rc2'
+
+%p Now I should have this link shared across several views:
+%p
+  %a(href='https://github.com/danbikle/app09' target='g') https://github.com/danbikle/app09
+
+%p
+  %a(href='class09#lab')
+    Class09 Lab

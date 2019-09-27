@@ -1,0 +1,110 @@
+%h2 Class02 Lab Answer:
+%h2 Learn about Virtualbox network settings
+
+%p To start this lab, I should start the virtualbox-GUI and then click on settings for one of the 'guest' instances:
+
+%img(src='/class02/class02vbox12a.png')
+
+%p I notice that this guest allows me to configure four adapters.
+
+%p A little bit of networking knowledge here can go a long way.
+
+%p
+  With a real laptop I can actually see one of the adapters.
+  It is a port on the side which accepts an ethernet cable.
+  Another adapter I know about, but cannot see, is the WIFI adapter.
+
+%p
+  I usually ignore the ethernet adapter and configure only the WIFI adapter.
+
+%p
+  Often I configure the WIFI adapter so it gets an IP address from a DHCP server inside a local WIFI router.
+
+%p
+  So, to connect my laptop to WIFI is usually easy.
+
+%p
+  I can use this same thinking process when I configure adapters of a virtualbox guest instance.
+
+%p
+  A good place to start is to disable Adapter 2, 3, 4.
+  
+%p
+  Then I enable Adapter 1 so it looks something like this:
+%img(src='/class02/class02vbox12a.png')
+
+%p
+  I need to be aware that each adapter has not one, but two configurations.
+
+%p
+  The first configuration is done by the virtualbox-GUI.
+  
+%p
+  When the guest instance boots up and sees the above configuration, it thinks that I have plugged
+  an ethernet cable into Adapter 1.
+
+%p
+  The second configuration is done by a GUI inside of guest-Linux after it has booted:
+%img(src='/class02/class02vbox12b.png')
+
+%p
+  One mistake I have made in the past is to configure Adapter 1 in virtualbox-GUI and then
+  configure the wrong adapter in the guest-Linux GUI.
+  I avoid this mistake in the above images be noting that the MAC Address 080027B63DB6 matches the
+  Hardware Address in the Linux GUI: 08:00:27:B6:3D:B6
+
+%p
+  Usually at that point I am done with network configuration for that guest.
+
+%p
+  Sometimes I might want to configure Adpater 2 of the guest so it will support
+  ssh traffic from users who want to login to the guest.
+
+%p
+  To set this up, I need to understand that the guest
+  depends on the physical adapter of my laptop (the 'host').
+
+%p I use a shell command on the host to give me information about the physical adapter:
+
+.syntax
+  %pre
+    =render 'class02vbox12c'
+
+%p The ifconfig command tells me the physical adapter of the host is called: 'enp59s0'.
+
+%p With that small piece of information, I can now enable and configure Adpater 2 of the guest.
+
+%p I display some images below which contain clues on how to do this:
+%img(src='/class02/class02vbox12d.png')
+%br/
+%img(src='/class02/class02vbox12e.png')
+%br/
+%img(src='/class02/class02vbox12f.png')
+
+%p
+  In the above example, the guest is configured to listen for traffic at 192.168.1.101
+  if that traffic comes from adapter: enp59s0 on the host.
+
+%p
+  Note that the MAC Address 080027248D74 in the virtualbox-GUI,
+  mathches the Device MAC Address 08:00:27:24:8D:74 in the Linux-guest-GUI.
+
+%p The above discussion is a good example of a virtualbox bridged adapter configuration.
+
+%p
+  It is called a bridged configuration because I see it as creating a bridge
+  between a guest-adapter and a host-adapter.
+%p The main reason to setup a bridged adapter is to allow ssh traffic into the guest host from other hosts on my network.
+
+%p If I don't need to permit ssh traffic into the guest, I like to leave Adapters 2,3,4 disabled.
+
+%p It is easy to find discussion about this topic via google:
+
+%p
+  %a(href='http://www.google.com/search?q=how+to+setup+virtualbox+bridged+adapter' target='x')
+    http://www.google.com/search?q=how+to+setup+virtualbox+bridged+adapter
+  
+%hr/
+%p
+  %a(href='class02#lab')
+    Class02 Lab

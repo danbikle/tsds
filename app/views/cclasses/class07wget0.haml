@@ -1,0 +1,19 @@
+%h2 Class07 Lab Answer:
+%h2 Use wget to copy d1d2.herokuapp.com into d1d2
+
+%p This was easy.
+
+%p The wget utility has a -r option which fits this use-case.
+
+%p After I wget the site, I copy its contents up a level so http-server can see and serve it:
+
+.syntax
+  %pre
+    %code.bash
+      cd ~/d1d2
+      wget -r   d1d2.herokuapp.com
+      rsync -av d1d2.herokuapp.com/ ./
+
+%p
+  %a(href='class07#lab')
+    Class07 Lab

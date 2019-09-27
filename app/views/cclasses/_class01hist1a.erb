@@ -1,0 +1,36 @@
+<div class='syntax'><pre><code>
+"""
+hist1a.py
+
+This script should create a histogram plot from a CSV file.
+"""
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+my_df    = pd.read_csv('http://www.spy611.com/csv/allpredictions.csv')
+# my_df should be a Pandas DataFrame
+# Each row should contain information about a day in the past.
+
+sp0_sr   = (my_df.cdate > '2016') & (my_df.cdate &lt; '2017')
+# sp0_sr should be a Pandas Series full of Booleans
+
+# I can use a Series like this to filter out rows from a Pandas DataFrame.
+
+# When I match a row from the DataFrame with a False row from the
+# Series, the DF-row gets filtered out and then I dont see it.
+
+sp0_df   = my_df[sp0_sr]
+# sp0_df should be a Pandas DataFrame with all rows filtered out except rows for 2016.
+
+day1g_sr = sp0_df.pctlag1
+# day1g_sr should be a Pandas Series which is a copy of the pctlag1 column in sp0_df
+
+plt.hist(day1g_sr)
+# The above line creates a histogram.
+
+plt.show()
+# The above line shows the histogram.
+
+'bye'
+</code></pre></div>

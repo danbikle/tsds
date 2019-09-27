@@ -1,0 +1,28 @@
+<code class='bash'>
+&lt;html>
+  &lt;script>
+    var ima_s = 'Ima string'
+    var ima_i = 7   // Ima integer and this is a comment
+    var ima_f = 7.7 /* Ima float and this a comment too */
+    var ima_a = [ima_s, ima_i, ima_f]      // Im array
+    var ima_o = {'k1': ima_s, 'k2': ima_a} // Im object
+    ima_o['k2'][2] // What am i?
+    ima_o.k1[2]    // What am i?
+    
+    // Usually I use this kind of loop:
+    for(var i=0;i&lt;5;i++) {
+      ima_i = ima_i + i
+      'Im ina loop'                      
+    }
+
+    // Sometimes I use this kind of loop:
+    ima_a.forEach(function(thng) {
+      'Im ina loop too'
+      'thng is...:'
+      thng
+    })
+                         
+    'bye'
+  &lt;/script>
+&lt;/html>
+</code>

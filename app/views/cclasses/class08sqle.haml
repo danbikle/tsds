@@ -1,0 +1,44 @@
+%h2 Class08 Lab Answer:
+%h2 For 2016, report on aggregated Effectiveness using SQL against allpredictions.csv
+
+%p I did this lab by preparing a friendly CSV file and then using Sqlite3 to report from that file.
+
+%p I used a simple bash script to manage the two tasks.
+
+.syntax
+  %pre
+    =render 'class08sqle1'
+
+%p The above bash script calls a Python script:
+
+.syntax
+  %pre
+    =render 'class08sqla2'
+
+%p The above Python script helps me in two ways:
+%ul
+  %li Filters out columns I dont want.
+  %li Copies price from leading row to current row.
+
+%p After my bash script calls the above Python script, my bash script then calls Sqlite3 which runs this SQL syntax:
+
+.syntax
+  %pre
+    =render 'class08sqle3'
+
+%p The above SQL has some syntax lessons:
+%ul
+  %li With Sqlite3, how to import a CSV file into a table?
+  %li With SQL, how to place subquery into a predicate?
+  %li With SQL, how to operate if-then logic?
+
+%p After I ran the above scripts I captured the output:
+.syntax
+  %pre
+    =render 'class08sqle4'
+
+%p The above output shows that, for 2016, the Effectiveness of the Logistic Regression model is less than Long-Only Effectiveness.
+
+%p
+  %a(href='class08#lab')
+    Class08 Lab

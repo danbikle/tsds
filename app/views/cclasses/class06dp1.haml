@@ -1,0 +1,71 @@
+%h2 Class06 Lab Answer:
+%h2 Build and deploy a simple ConvNetJS App
+
+%p I would not call this App simple.
+
+%p I start by installing meteor on my Ubuntu laptop:
+
+.syntax
+  %pre
+    =render 'class06dp2'
+
+%p The above command wanted my sudo password so it could install a command in /usr/local/bin
+
+%p When it asked for password, I just pressed enter-key 4 times and it then suggested that I add meteor to my path with this syntax:
+
+.syntax
+  %pre
+    %code.bash export PATH=$HOME/.meteor:$PATH
+
+%p Next, I cloned a repo:
+
+.syntax
+  %pre
+    %code.bash
+      cd ~
+      git clone https://github.com/danbikle/deep500
+
+%p Then I started the Meteor server:
+
+.syntax
+  %pre
+    %code.bash
+      cd ~/deep500
+      \~/.meteor/meteor
+
+%p I loaded a localhost URL into my browser:
+
+%p http://localhost:3000
+
+%p I saw this:
+
+%img(src='/class06/dp1.png')
+
+%p The app wants me to create an account so I clicked on Sign_in and then create_account.
+
+%p It is not picky about the name/password so I just used dan/world123:
+
+%img(src='/class06/dp2.png')
+%hr/
+
+%img(src='/class06/dp3.png')
+%hr/
+
+%img(src='/class06/dp4.png')
+%hr/
+
+%p The above form is the UI I use to feed parameters to the model-builder.
+
+%p I can speed it up by picking radio buttons on the left-hand side and choosing fewer features.
+
+%p After I create a few models I can visualize how well they work by clicking the button: 'chart em'
+
+%p At one time this app ran at deep500.meteor.com
+
+%p A few months after I deployed this app to meteor.com, I shut it down because the hosting service started charging money.
+
+%p It runs well on my laptop.
+
+%p
+  %a(href='class06#lab')
+    Class06 Lab

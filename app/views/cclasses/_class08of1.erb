@@ -1,0 +1,234 @@
+<code class='bash'>
+# class08overfit.py
+
+# This script should help me visualize what over-fitting looks like.
+
+# I have three ways to over-fit:
+# - Use a flexible learing algorithm which offers more variance than bias.
+# - Learn from a training set which has too many features.
+# - Learn from a training set which lacks enough observations.
+
+# I start by getting some training data
+import pdb
+import pandas as pd
+import numpy  as np
+
+allpredictions_df = pd.read_csv('allpredictions.csv')
+
+# Here I should overfit by constraining the training data to 2015 December:
+train_sr = (allpredictions_df['cdate'] > '2015-12') & (allpredictions_df['cdate'] &lt; '2016')
+
+train_df = allpredictions_df[train_sr][['cdate','cp','pctlead','pctlag1','pctlag2','pctlag4','pctlag8','pctlag16']]
+
+train_a  = np.array(train_df)
+# I should declare some integers to help me navigate the Arrays.
+cdate_i    = 0
+cp_i       = 1
+pctlead_i  = 2
+pctlag1_i  = 3
+pctlag2_i  = 4
+pctlag4_i  = 5
+pctlag8_i  = 6
+pctlag16_i = 7
+end_i      = 8
+# Here I should overfit by specifying too many features:
+x_train_a  = train_a[:,pctlag1_i:end_i]
+y_train_a  = train_a[:,pctlead_i]
+train_median  = np.median(y_train_a)
+label_train_a = y_train_a > train_median
+# I should learn from x_train_a,label_train_a:
+
+from sklearn import linear_model
+# Here I pick a learing algorithm which offers some flexibility:
+clf_lr = linear_model.LogisticRegression()
+clf_lr.fit(x_train_a, label_train_a)
+
+# I should predict the training data.
+# I assume that the predictions will be very accurate.
+test_df  = train_df.copy()
+test_a   = np.array(test_df)
+x_test_a = test_a[:,pctlag1_i:end_i]
+y_test_a = test_a[:,pctlead_i]
+label_test_a  = y_test_a > train_median
+
+eff1d_lr_l       = []
+acc_lr_l         = []
+xcount_i         = -1
+tpc_i = 0
+tnc_i = 0
+fpc_i = 0
+fnc_i = 0
+for xoos_a in x_test_a:
+  xcount_i      += 1 # should == 0 1st time through
+  pctlead        = y_test_a[xcount_i]
+  xf_a           = xoos_a.astype(float)
+  xr_a           = xf_a.reshape(1, -1)
+  aprediction_lr = clf_lr.predict_proba(xr_a)[0,1]
+  if (aprediction_lr > 0.5):
+    eff1d_lr_l.append(pctlead)  # up   prediction
+  else:
+    eff1d_lr_l.append(-pctlead) # down prediction
+  # I should save accuracy of each prediction
+  #
+  if ((pctlead > 0) and (aprediction_lr > 0.5)):
+    acc_lr_l.append('True Positive')
+    tpc_i += 1
+  elif ((pctlead > 0) and (aprediction_lr &lt; 0.5)):
+    acc_lr_l.append('False Negative')
+    fnc_i += 1
+  elif ((pctlead &lt; 0) and (aprediction_lr > 0.5)):
+    acc_lr_l.append('False Positive')
+    fpc_i += 1
+  else:
+    acc_lr_l.append('True Negative')
+    tnc_i += 1
+  #
+  'end for'
+
+# I have collected both Accuracy and Effectiveness.
+# I should build a stacked bar chart:
+
+import matplotlib.pyplot as plt
+
+mpl_fig     = plt.figure()
+ax          = mpl_fig.add_subplot(111)
+barcount    = 2
+
+trueCounts  = (tpc_i, tnc_i)
+falseCounts = (fpc_i, fnc_i)
+
+ind   = np.arange(barcount) # the x locations for the bars
+width = 0.49                # the width of the bars
+
+ax.bar(ind, trueCounts,  width, color=(0.0,0.7,0.0))
+ax.bar(ind, falseCounts, width, color=(0.7,0.0,0.0), bottom=trueCounts)
+ax.set_ylabel('True Green Bottom, False Red Top')
+ax.set_xlabel('Prediction Types')
+ax.set_title('Accuracy Stacked Bar Chart')
+
+ax.set_xticks(ind + width/2.)
+
+# I should use prediction counts to set height of plot:
+ytics_f = 1.2 * np.max([tpc_i+tnc_i, fpc_i+fnc_i])
+
+ax.set_yticks(np.arange(0, ytics_f, 10))
+ax.set_xticklabels(('Positive', 'Negative'))
+
+plt.show()
+# The above chart should show that most of the predictions are True.
+
+
+# Now, I should build Effectiveness Time series.
+
+# I should get a list of dates:
+from datetime import datetime
+cdate_l = [datetime.strptime(dt_s,'%Y-%m-%d') for dt_s in test_df['cdate']]
+
+# I should get a running sum of Effectiveness.
+eff_l = [0.0] # This will be a running sum.
+eff_i = 0     # Integer navigator.
+
+for eff_f in eff1d_lr_l:
+  # I should add to the running sum:
+  eff_l.append( eff_l[eff_i] + eff_f )
+  eff_i += 1 # I should track where I am.
+
+len(cdate_l) == len(eff_l[:-1]) # shouldbe true
+
+# With matplotlib, I only need a few lines of syntax to plot a timeseries:
+plt.plot(cdate_l, eff_l[:-1], 'g-')
+plt.show()
+
+
+# Now I should see how my over-fitted model works on 2016 data.
+
+test_sr = (allpredictions_df['cdate'] > '2016') & (allpredictions_df['cdate'] &lt; '2017')
+
+test_df = allpredictions_df[test_sr][['cdate','cp','pctlead','pctlag1','pctlag2','pctlag4','pctlag8','pctlag16']]
+test_a       = np.array(test_df)
+x_test_a     = test_a[:,pctlag1_i:end_i]
+y_test_a     = test_a[:,pctlead_i]
+label_test_a = y_test_a > train_median
+
+eff1d_lr_l       = []
+acc_lr_l         = []
+xcount_i         = -1
+tpc_i = 0
+tnc_i = 0
+fpc_i = 0
+fnc_i = 0
+for xoos_a in x_test_a:
+  xcount_i      += 1 # should == 0 1st time through
+  pctlead        = y_test_a[xcount_i]
+  xf_a           = xoos_a.astype(float)
+  xr_a           = xf_a.reshape(1, -1)
+  aprediction_lr = clf_lr.predict_proba(xr_a)[0,1]
+  if (aprediction_lr > 0.5):
+    eff1d_lr_l.append(pctlead)  # up   prediction
+  else:
+    eff1d_lr_l.append(-pctlead) # down prediction
+  # I should save accuracy of each prediction
+  #
+  if ((pctlead > 0) and (aprediction_lr > 0.5)):
+    acc_lr_l.append('True Positive')
+    tpc_i += 1
+  elif ((pctlead > 0) and (aprediction_lr &lt; 0.5)):
+    acc_lr_l.append('False Negative')
+    fnc_i += 1
+  elif ((pctlead &lt; 0) and (aprediction_lr > 0.5)):
+    acc_lr_l.append('False Positive')
+    fpc_i += 1
+  else:
+    acc_lr_l.append('True Negative')
+    tnc_i += 1
+  #
+  'end for'
+
+mpl_fig     = plt.figure()
+ax          = mpl_fig.add_subplot(111)
+barcount    = 2
+
+trueCounts  = (tpc_i, tnc_i)
+falseCounts = (fpc_i, fnc_i)
+
+ind   = np.arange(barcount) # the x locations for the bars
+width = 0.49                # the width of the bars
+
+ax.bar(ind, trueCounts,  width, color=(0.0,0.7,0.0))
+ax.bar(ind, falseCounts, width, color=(0.7,0.0,0.0), bottom=trueCounts)
+ax.set_ylabel('True Green Bottom, False Red Top')
+ax.set_xlabel('Prediction Types')
+ax.set_title('Accuracy Stacked Bar Chart')
+
+ax.set_xticks(ind + width/2.)
+
+# I should use prediction counts to set height of plot:
+ytics_f = 1.2 * np.max([tpc_i+tnc_i, fpc_i+fnc_i])
+
+ax.set_yticks(np.arange(0, ytics_f, 10))
+ax.set_xticklabels(('Positive', 'Negative'))
+
+plt.show()
+
+# Now, I should build Effectiveness Time series for 2016
+
+# I should get a list of dates:
+cdate_l = [datetime.strptime(dt_s,'%Y-%m-%d') for dt_s in test_df['cdate']]
+
+# I should get a running sum of Effectiveness.
+eff_l = [0.0] # This will be a running sum.
+eff_i = 0     # Integer navigator.
+
+for eff_f in eff1d_lr_l:
+  # I should add to the running sum:
+  eff_l.append( eff_l[eff_i] + eff_f )
+  eff_i += 1 # I should track where I am.
+
+len(cdate_l) == len(eff_l[:-1]) # shouldbe true
+
+# With matplotlib, I only need a few lines of syntax to plot a timeseries:
+plt.plot(cdate_l, eff_l[:-1], 'g-')
+plt.show()
+
+'bye'
+</code>

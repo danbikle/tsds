@@ -1,0 +1,35 @@
+%h2 Class09 Lab Answer:
+%h2 Login to Droplet as root
+
+%p I started this lab by memorizing the ip address displayed next to my new Droplet:
+
+%p 138.68.11.196
+
+%p Next I placed a simple entry in a file called ~/.ssh/config
+
+%p If you don't have a .ssh/config file, you should create one now.
+
+%p The syntax I typed into ~/.ssh/config looks like this:
+
+.syntax
+  %pre
+    =render 'class09do13'
+
+%p Next, I typed in a simple shell command:
+
+.syntax
+  %pre
+    %code.bash ssh dig10
+
+%p DigitalOcean let me in; I saw this:
+
+.syntax
+  %pre
+    =render 'class09do14'
+
+%p Notice that I shutdown the Droplet.
+%p DigitalOcean charged $0.03 to my credit card.
+
+%p
+  %a(href='class09#lab')
+    Class09 Lab

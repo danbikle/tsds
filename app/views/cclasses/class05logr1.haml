@@ -1,0 +1,22 @@
+%h2 Class05 Lab Answer:
+%h2 Use Logistic Regression to train and predict from allpredictions.csv
+
+%p I wrote a simple script to do this lab:
+.syntax
+  %pre
+    =render 'class05logr2'
+
+%p After I ran the script, I saw this:
+.syntax
+  %pre
+    =render 'class05logr3'
+
+%p When I study the above predictions I observe these facts:
+%ul
+  %li This model has learned that pctlead 'reverts to mean'.
+  %li After down-days, mean-reversion is slightly stronger than after up-days.
+  %li The two most predictve features are pctlag1 and pctlag2.
+  
+%p
+  %a(href='class05#lab')
+    Class05 Lab

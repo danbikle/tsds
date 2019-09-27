@@ -1,0 +1,21 @@
+<code class='python'>
+# class08sqla.py
+
+# For 2016, 
+# This script should report on aggregated Accuracy using SQL against allpredictions.csv
+
+import pandas as pd
+
+allpredictions_df = pd.read_csv('allpredictions.csv')
+
+# I should get cp_lead
+cp_l      = [cp_f for cp_f in allpredictions_df['cp'] ]
+cp_lead   = (cp_l + [cp_l[-1]])[1:]
+datepp_df = allpredictions_df.copy()[['cdate','cp','prob_lr']]
+datepp_df['cp_lead'] = cp_lead
+
+# I should write datepp_df to a CSV file with no header:
+datepp_df.to_csv('datepp.csv', float_format='%4.3f', index=False, header=False)
+
+'bye'
+</code>

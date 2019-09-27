@@ -1,0 +1,20 @@
+%h2 Class05 Lab Answer:
+%h2 Plot http://www.spy611.com/csv/allpredictions.csv
+
+%p I did this lab from the command-line.
+
+%p I typed in three lines of syntax:
+
+.syntax
+  %pre
+    %code
+      csv_l = read.csv('http://www.spy611.com/csv/allpredictions.csv')[ , c('cdate','cp')]
+      my_d  = as.Date(csv_l$cdate, "%Y-%m-%d")
+      plot(csv_l$cp ~ my_d)
+
+%p I saw this plot:
+%img(src='/class05/plot2.png')
+
+%p
+  %a(href='class05#lab')
+    Class05 Lab

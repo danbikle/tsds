@@ -1,0 +1,43 @@
+<code class='sql'>
+.echo on
+--
+-- class08sqle.sql
+--
+
+-- For 2016, 
+-- This script should report on aggregated Effectiveness using SQL against datepp.csv
+
+drop   table datepp;
+create table datepp(cdate varchar, cp number, prob_lr number, cp_lead number);
+.separator ,
+.import datepp.csv datepp
+
+-- Delete data I dont want
+delete from datepp where cdate &lt; '2016';
+delete from datepp where cdate > '2017';
+-- I dont want last observation because cp_lead is unknown:
+delete from datepp where cdate = (select max(cdate) from datepp);
+
+-- I should compute pctlead and pdir.
+-- If prob_lr >= 0.5 pdir should be 1 else it should be -1
+drop   table dateppe;
+create table dateppe as
+select
+cdate
+,prob_lr
+,100.0 * (cp_lead - cp)/cp                   pctlead
+,case when prob_lr >= 0.5 then 1 else -1 end pdir
+from datepp order by cdate;
+
+-- If prob_lr > 0.5 and pctlead > 0 that is effective.
+-- If prob_lr &lt; 0.5 and pctlead &lt; 0 that is effective.
+-- Other 2 combos are not.
+-- I can use pdir * pctlead to bring together the 4 cases.
+-- I should report effectiveness:
+select avg(pdir * pctlead) avg_effectiveness ,sum(pdir * pctlead) sum_effectiveness from dateppe;
+
+-- I should report long_only effectiveness:
+select avg(pctlead) avg_effectiveness ,sum(pctlead) sum_effectiveness from dateppe;
+
+.quit
+</code>

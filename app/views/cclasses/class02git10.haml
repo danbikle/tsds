@@ -1,0 +1,38 @@
+%h2 Class02 Lab Answer:
+%h2 Learn how to create a git repo
+
+%p This is an easy lab.
+
+%p I use two ways to create a git repository (a repo).
+
+%p The most common way I create a repo is to clone a repo from github.com with syntax like this:
+
+.syntax
+  %pre
+    %code
+      cd ~
+      rm -rf try-tf
+      git clone https://github.com/jasonbaldridge/try-tf
+
+%p The above syntax will create a repo at this location:
+.syntax
+  %pre
+    %code
+      \~/try-tf/
+
+%p Occasionally I will create a git repo from scratch with syntax like this:
+
+.syntax
+  %pre
+    %code
+      cd ~
+      mkdir my_repo
+      cd    my_repo
+      echo  I like my_repo. > README.md
+      git init
+      git add .
+      git commit -am 'This repo will help me learn git.'
+
+%p
+  %a(href='class02#lab')
+    Class02 Lab

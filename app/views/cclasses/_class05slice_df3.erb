@@ -1,0 +1,118 @@
+<code class='bash'>
+r5@al78:~/tsds/public/class05 $ 
+r5@al78:~/tsds/public/class05 $ R -f slice_df.r 
+
+R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # slice_df.r
+> 
+> # This script should slice rows and columns of a Data Frame.
+> 
+> # Demo:
+> # R -f slice_df.r
+> 
+> # First I should get a list:
+> csv_l  = read.csv('http://www.spy611.com/csv/allpredictions.csv')
+> 
+> # I should convert my list into a Data Frame:
+> csv_df = data.frame(csv_l)
+> 
+> # I should get rows 20 through 30:
+> rows2030 = csv_df[c(20:30) , ]
+> rows2030
+        cdate     cp pctlead pctlag1 pctlag2 pctlag4 pctlag8 pctlag16
+20 1981-01-29 130.24  -0.530  -0.077  -0.671   0.008  -3.074   -3.583
+21 1981-01-30 129.55  -2.038  -0.530  -0.606  -0.223  -1.595   -2.638
+22 1981-02-02 126.91   1.221  -2.038  -2.557  -3.211  -3.388   -4.922
+23 1981-02-03 128.46   0.101   1.221  -0.841  -1.442  -1.382   -3.790
+24 1981-02-04 128.59   0.809   0.101   1.324  -1.267  -1.259   -3.526
+25 1981-02-05 129.63   0.748   0.809   0.911   0.062  -0.162   -2.877
+26 1981-02-06 130.60  -1.018   0.748   1.563   2.908  -0.397   -2.697
+27 1981-02-09 129.27  -0.023  -1.018  -0.278   0.631  -0.821   -4.081
+28 1981-02-10 129.24  -0.774  -0.023  -1.041   0.505  -0.768   -3.818
+29 1981-02-11 128.24  -0.593  -0.774  -0.797  -1.072  -1.011   -2.590
+30 1981-02-12 127.48  -0.392  -0.593  -1.362  -2.389   0.449   -2.954
+   actual_dir prob_lr pdir_lr eff1d_lr recent_eff_lr    accuracy_lr pdir_nb
+20         -1   0.529       1   -0.530        -0.347 False Positive      -1
+21         -1   0.443      -1    2.038         0.001  True Negative      -1
+22          1   0.287      -1   -1.221        -0.046 False Negative      -1
+23          1   0.716       1    0.101         0.093  True Positive       1
+24          1   0.384      -1   -0.809        -0.084 False Negative      -1
+25          1   0.558       1    0.748         0.171  True Positive       1
+26         -1   0.554       1   -1.018        -0.440 False Positive       1
+27         -1   0.351      -1    0.023        -0.191  True Negative      -1
+28         -1   0.571       1   -0.774        -0.366 False Positive      -1
+29         -1   0.400      -1    0.593        -0.086  True Negative      -1
+30         -1   0.444      -1    0.392        -0.157  True Negative      -1
+   eff1d_nb recent_eff_nb    accuracy_nb  lead rdelta gdelta    red  green
+20    0.530        -0.135  True Negative -0.69   0.69  -0.69 138.66 144.12
+21    2.038         0.213  True Negative -2.64   2.64   2.64 139.35 143.43
+22   -1.221         0.166 False Negative  1.55  -1.55  -1.55 141.99 146.07
+23    0.101         0.305  True Positive  0.13   0.13   0.13 140.44 144.52
+24   -0.809         0.128 False Negative  1.04  -1.04  -1.04 140.57 144.65
+25    0.748         0.171  True Positive  0.97   0.97   0.97 139.53 143.61
+26   -1.018        -0.440 False Positive -1.33  -1.33  -1.33 140.50 144.58
+27    0.023        -0.191  True Negative -0.03   0.03   0.03 139.17 143.25
+28    0.774        -0.056  True Negative -1.00   1.00  -1.00 139.20 143.28
+29    0.593         0.224  True Negative -0.76   0.76   0.76 140.20 142.28
+30    0.392         0.153  True Negative -0.50   0.50   0.50 140.96 143.04
+   allred allgreen
+20 138.66   144.12
+21 139.35   143.43
+22 141.99   146.07
+23 140.44   144.52
+24 140.57   144.65
+25 139.53   143.61
+26 140.50   144.58
+27 139.17   143.25
+28 139.20   143.28
+29 140.20   142.28
+30 140.96   143.04
+> 
+> # I should get columns 1 through 8:
+> cols18 = csv_df[, c(1:8)]
+> head(cols18)
+       cdate     cp pctlead pctlag1 pctlag2 pctlag4 pctlag8 pctlag16
+1 1981-01-02 136.34   1.196   0.427   0.746  -0.168   1.975    4.491
+2 1981-01-05 137.97   0.109   1.196   1.628   2.177   1.613    7.571
+3 1981-01-06 138.12  -2.201   0.109   1.306   2.062   2.084    8.448
+4 1981-01-07 135.08  -1.495  -2.201  -2.095  -0.501  -0.589    4.527
+5 1981-01-08 133.06   0.316  -1.495  -3.663  -2.406  -2.570    2.789
+6 1981-01-09 133.48   0.030   0.316  -1.184  -3.254  -1.148    2.205
+> 
+> # I should get rows 20 through 30 and columns 1, 2, 4, 6, 8:
+> rows2030_12468 = csv_df[c(20:30) , c(1,2,4,6,8)]
+> rows2030_12468
+        cdate     cp pctlag1 pctlag4 pctlag16
+20 1981-01-29 130.24  -0.077   0.008   -3.583
+21 1981-01-30 129.55  -0.530  -0.223   -2.638
+22 1981-02-02 126.91  -2.038  -3.211   -4.922
+23 1981-02-03 128.46   1.221  -1.442   -3.790
+24 1981-02-04 128.59   0.101  -1.267   -3.526
+25 1981-02-05 129.63   0.809   0.062   -2.877
+26 1981-02-06 130.60   0.748   2.908   -2.697
+27 1981-02-09 129.27  -1.018   0.631   -4.081
+28 1981-02-10 129.24  -0.023   0.505   -3.818
+29 1981-02-11 128.24  -0.774  -1.072   -2.590
+30 1981-02-12 127.48  -0.593  -2.389   -2.954
+> 
+r5@al78:~/tsds/public/class05 $ 
+r5@al78:~/tsds/public/class05 $ 
+r5@al78:~/tsds/public/class05 $
+</code>

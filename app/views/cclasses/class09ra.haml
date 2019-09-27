@@ -1,0 +1,49 @@
+%h2 Class09 Lab Answer:
+%h2 Install Ruby 2.3.1 
+
+%p I did this lab on my laptop; you can do this lab on your DigitalOcean host if you have one.
+%p I start by enhancing Ubuntu with some shell commands:
+
+.syntax
+  %pre
+    =render 'class09ra1'
+
+%p Next I login to a development account.
+
+%p I use a development account named ann; I don't do development in the root account.
+
+%p It is easy to create a development account named ann:
+
+.syntax
+  %pre
+    %code.bash
+      sudo useradd -m -s /bin/bash ann
+      sudo passwd ann
+
+%p After I create the ann account, I can login:
+
+.syntax
+  %pre
+    %code.bash ssh -AY ann@localhost
+
+%p Next I clone a repo named rbenv to my home folder:
+
+.syntax
+  %pre
+    =render 'class09ra2'
+
+%p Then I issue some shell commands to install Ruby 2.3.1:
+
+.syntax
+  %pre
+    =render 'class09ra3'
+
+%p When I install Ruby 2.3.1, I should see something like this:
+
+.syntax
+  %pre
+    =render 'class09ra4'
+
+%p
+  %a(href='class09#lab')
+    Class09 Lab

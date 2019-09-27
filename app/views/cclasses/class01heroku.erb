@@ -1,0 +1,25 @@
+<code class='bash'>
+Get a yahoo email account.
+Use   yahoo email account to create heroku.com account.
+
+Look for this folder:
+~/heroku-client/
+
+If there, do this:
+mv ~/heroku-client/ ~/heroku-client-old/
+
+cd ~/Downloads
+/usr/bin/curl https://s3.amazonaws.com/assets.heroku.com/heroku-client/heroku-client.tgz > heroku-client.tgz
+tar zxf heroku-client.tgz
+mv      heroku-client ~
+echo 'export PATH="${HOME}/heroku-client/bin:$PATH"' >> ~/.bashrc
+bash
+
+cd spy611v2
+which heroku
+heroku create spy611x2016
+git push heroku master
+
+browse spy611x2016.herokuapp.com
+
+</code>

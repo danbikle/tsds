@@ -1,0 +1,111 @@
+%h2 Class04 Lab Answer:
+%h2 Write a script which demonstrates Neural Networks
+
+%p
+  To write a script which demonstrates Neural Networks, I rely on TensorFlow.
+
+%p
+  I follow the steps listed below.
+
+%p
+  If I have anaconda3 installed, I move it out of the way with shell commands:
+
+.syntax
+  %pre
+    %code
+      cd ~
+      mv anaconda3 anaconda3backup
+
+%p Then I install anaconda3 with more shell commands:
+
+.syntax
+  %pre
+    %code
+      cd ~
+      curl http://repo.continuum.io/archive/Anaconda3-4.0.0-Linux-x86_64.sh > Anaconda3-4.0.0-Linux-x86_64.sh
+      bash Anaconda3-4.0.0-Linux-x86_64.sh
+      cd ~/anaconda3/bin
+      mv curl curl_ana
+      cd ~
+      echo 'export PATH=${HOME}/anaconda3/bin:$PATH' >> ~/.bashrc
+      bash
+
+
+%p Next I install TensorFlow with one shell command:
+
+.syntax
+  %pre
+    %code pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.9.0-cp35-cp35m-linux_x86_64.whl
+
+%p Then I clone a simple git repo with these shell commands:
+
+.syntax
+  %pre
+    %code
+      cd ~
+      rm -rf try-tf
+      git clone https://github.com/jasonbaldridge/try-tf
+
+%p Using more shell commands, I enhance the repo so I can run a script with python3:
+
+.syntax
+  %pre
+    %code
+      cd ~/try-tf
+      sed '/print/s/print/print(/' hidden.py | sed '/print/s/$/)/' > hidden35.py
+      sed -i '/for line in file/s/file/open/' hidden35.py
+      sed -i '/xrange/s/xrange/range/'        hidden35.py
+      diff hidden.py hidden35.py
+
+%p I run a demo with python3:
+
+.syntax
+  %pre
+    %code ~/anaconda3/bin/python hidden35.py --train simdata/moon_data_train.csv --test simdata/moon_data_eval.csv --num_epochs 100 --num_hidden 5
+
+%p If that runs okay, I am confident that hidden35.py works well enough.
+
+%p Next I prepare some stock market data for hidden35.py
+
+%p I create a python script with this syntax inside it:
+
+.syntax
+  %pre
+    =render 'class04tf1a'
+
+%p After I create the above script I run it:
+
+.syntax
+  %pre
+    %code
+      cd ~/try-tf
+      python prep_gspc.py
+
+%p The above script should give me two CSV files.
+
+%p I should format the first column in each file with 6 shell commands:
+
+
+.syntax
+  %pre
+    =render 'class04tf1b'
+
+%p Then, I run hidden35.py which runs a neural network to classify my stock market data:
+
+.syntax
+  %pre
+    %code
+      cd ~/try-tf
+      \~/anaconda3/bin/python hidden35.py --train gspc_train.csv --test gspc_test.csv --num_epochs 100 --num_hidden 5
+
+%p And that ends the demo.
+
+%p For more info about TensorFlow, study the content listed below:
+
+%p
+  %a(href='https://github.com/jasonbaldridge/try-tf' target='x')
+    https://github.com/jasonbaldridge/try-tf
+  
+%p
+  %a(href='https://www.tensorflow.org/versions/r0.9/get_started/index.html' target='x')
+    https://www.tensorflow.org/versions/r0.9/get_started/index.html

@@ -1,0 +1,139 @@
+%h2 Answers:
+%ul
+  %li What are Histograms?
+  %ul
+    %li A histogram converts one dimensional data into a two dimensional visualization which displays 'frequency'.
+    %li For example I could convert a list of SAT scores into a histogram.
+    %li Perhaps a next step would be to compare my SAT score to the histogram:
+    %li
+      %a(href='https://www.google.com/search?q=histogram+of+sat+scores&tbm=isch' target='x')
+        https://www.google.com/search?q=histogram+of+sat+scores&tbm=isch
+    %li After that comparison, I might understand how frequent my score is compared to other's scores.
+    %li It is easy to plot a simple histogram using Python.
+    %li The demo below plots a histogram of one day gains of S &amp; P 500:
+    %li=render 'class01hist1'    
+    %li The above script should run on your laptop if you have Anaconda Python installed.
+    %li Homework: Install Anaconda Python on your laptop.
+    %li
+      %a(href='http://www.google.com/search?q=How+to+install+Anaconda+Python' target='x')
+        http://www.google.com/search?q=How+to+install+Anaconda+Python
+    %li I enhanced the above script with some comments:
+    %li=render 'class01hist1a'
+    
+    %li The above script should give me a simple histogram:
+    %li
+      %img(src='/class01/hist1.png')
+    %li The above plot is very simple. The URLs below might be useful if you want to enhance the plot:
+    %li
+      %a(href='https://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.hist' target='x')
+        https://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.hist
+  
+    %li
+      %a(href='https://matplotlib.org/examples/pylab_examples/histogram_percent_demo.html' target='x')
+        https://matplotlib.org/examples/pylab_examples/histogram_percent_demo.html
+  
+    %li
+      %a(href='https://matplotlib.org/examples/index.html' target='x')
+        https://matplotlib.org/examples/index.html
+    %li
+      %hr/
+
+  %li What are Scatter Plots?
+  %ul
+    %li
+      A Scatter Plot is a two dimensional visualization of the relationship between two variables.
+    %li Generally a Scatter Plot has an X-Axis and Y-Axis.
+    %li My hope is that Y depends on X.
+    %li I often use a scatter plot to place day1-gain on X-Axis and day2-gain on Y-Axis.
+    %li If day2-gain depends on day1-gain, I might be able to see it in the scatter plot.
+    %li Here is some syntax to create a scatter plot:
+    %li=render 'class01sp2016'
+    %li The above script has a bug. Do you see it?
+    %li The above script should give me a plot like this:
+    %li
+      %img(src='/class01/spy2016.png')
+  
+    %li I use a scatterplot to look for two types of information in the data.
+    %li
+      First I ask, where are the X-values most frequent?
+      Then, where are the Y-values most frequent?
+
+    %li
+      For our two scatter plots I see that both X and Y values are most frequent near 0.
+      As I move away from 0, the observations become less frequent.
+      This clustering near 0 is consistent with what I see in the histogram.
+
+    %li Next I ask, do I see that Y obviously depends on X?
+    %li
+      For our two scatter plot I'd say that the answer is No.
+      The shape is roughly circular which is the classic shape of data which has no correlation.
+
+    %li We could, however, look for weak correlation.
+    %li
+      I do this by drawing a vertical line through 0 and a horizontal line through 0.
+
+    %li
+      This divides the plot into quadrants.
+
+    %li
+      Also I make the plot much larger.
+
+    %li
+      Next I count the dots in each quadrant.
+
+    %li
+      If the counts match, then I really do have no correlation.
+
+    %li
+      If the counts are off by more than 10%, then I have weak correlation.
+
+    %li
+      In my opinion weak correlation is predictive enough to make money on the stock market if I use careful money management.
+
+    %li
+      %hr/
+
+  %li What is Correlation?
+  %ul
+    %li Correlation measures how much Y depends on X.
+    %li If day2-gain depends on day1-gain, correlation measures the strength of the dependency.
+    %li If day2-gain is independent of day1-gain, correlation is zero.
+    %li If day2-gain usually increases after a day1-gain increase, correlation should be near +1.
+    %li If day2-gain usually decreases after a day1-gain increase, correlation should be near -1.
+    %li If abs(correlation) > 0.5, I should be able to 'see it' when I put the data in a scatter plot.
+    %li Here is some syntax to calculate correlation.
+    %li=render 'class01corr'
+    %li
+      %hr/
+
+  %li What is a Time Series Plot?
+  %ul
+    %li A Time Series Plot uses the X-axis to plot either a time stamp or a date.
+    %li Then I use the Y-axis to plot a value like price:
+    %li=render 'class01ts1'
+    %li
+      %img(src='/class01/ts1.png')
+    %li
+      %hr/
+
+  %li What are Time Series Calculations?
+  %ul
+    %li I use Time Series Calculations to extract information from a Time Series.
+    %li Take IBM for example. A simple calculation is 'lag1' which is price difference between days.
+    %li An enhancement to lag1 is pctlag1 which is percentage price difference between days.
+    %li Here is a demo of a pctlag1 calculation:
+    %li=render 'class01lag1'
+    %li
+      Other types of calculations are listed below:
+      %ul
+        %li Moving Average
+        %li Moving Min
+        %li Moving Max
+        %li Moving Count
+        %li Moving Correlation
+        %li Moving Standard Deviation
+    %li
+      %hr/
+%p
+  %a(href='class01')
+    Class01

@@ -1,0 +1,117 @@
+<code class='bash'>r5@al78:~ $ 
+r5@al78:~ $ R
+
+R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> 
+> install.packages("ISLR", repos="http://cran.us.r-project.org")
+Installing package into ‘/usr/local/lib/R/site-library’
+(as ‘lib’ is unspecified)
+Warning in install.packages("ISLR", repos = "http://cran.us.r-project.org") :
+  'lib = "/usr/local/lib/R/site-library"' is not writable
+Would you like to use a personal library instead?  (y/n) y
+Would you like to create a personal library
+~/R/x86_64-pc-linux-gnu-library/3.2
+to install packages into?  (y/n) y
+trying URL 'http://cran.us.r-project.org/src/contrib/ISLR_1.0.tar.gz'
+Content type 'application/x-gzip' length 1748675 bytes (1.7 MB)
+==================================================
+downloaded 1.7 MB
+
+* installing *source* package ‘ISLR’ ...
+** package ‘ISLR’ successfully unpacked and MD5 sums checked
+** data
+*** moving datasets to lazyload DB
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+* DONE (ISLR)
+
+The downloaded source packages are in
+	‘/tmp/RtmpogbPXP/downloaded_packages’
+> 
+Save workspace image? [y/n/c]: n
+r5@al78:~ $ 
+r5@al78:~ $ 
+r5@al78:~ $ R
+
+R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(ISLR)
+> myauto = Auto
+> 
+> head(myauto)
+  mpg cylinders displacement horsepower weight acceleration year origin
+1  18         8          307        130   3504         12.0   70      1
+2  15         8          350        165   3693         11.5   70      1
+3  18         8          318        150   3436         11.0   70      1
+4  16         8          304        150   3433         12.0   70      1
+5  17         8          302        140   3449         10.5   70      1
+6  15         8          429        198   4341         10.0   70      1
+                       name
+1 chevrolet chevelle malibu
+2         buick skylark 320
+3        plymouth satellite
+4             amc rebel sst
+5               ford torino
+6          ford galaxie 500
+> 
+> 
+> summary(myauto)
+      mpg          cylinders      displacement     horsepower        weight    
+ Min.   : 9.00   Min.   :3.000   Min.   : 68.0   Min.   : 46.0   Min.   :1613  
+ 1st Qu.:17.00   1st Qu.:4.000   1st Qu.:105.0   1st Qu.: 75.0   1st Qu.:2225  
+ Median :22.75   Median :4.000   Median :151.0   Median : 93.5   Median :2804  
+ Mean   :23.45   Mean   :5.472   Mean   :194.4   Mean   :104.5   Mean   :2978  
+ 3rd Qu.:29.00   3rd Qu.:8.000   3rd Qu.:275.8   3rd Qu.:126.0   3rd Qu.:3615  
+ Max.   :46.60   Max.   :8.000   Max.   :455.0   Max.   :230.0   Max.   :5140  
+                                                                               
+  acceleration        year           origin                      name    
+ Min.   : 8.00   Min.   :70.00   Min.   :1.000   amc matador       :  5  
+ 1st Qu.:13.78   1st Qu.:73.00   1st Qu.:1.000   ford pinto        :  5  
+ Median :15.50   Median :76.00   Median :1.000   toyota corolla    :  5  
+ Mean   :15.54   Mean   :75.98   Mean   :1.577   amc gremlin       :  4  
+ 3rd Qu.:17.02   3rd Qu.:79.00   3rd Qu.:2.000   amc hornet        :  4  
+ Max.   :24.80   Max.   :82.00   Max.   :3.000   chevrolet chevette:  4  
+                                                 (Other)           :365  
+> 
+>
+> typeof(myauto)
+[1] "list"
+>
+
+</code>

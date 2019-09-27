@@ -1,0 +1,19 @@
+<code class='bash'>
+If I want to create an ann account in my Linux host, I run two commands:
+
+sudo useradd -m -s /bin/bash -G sudo ann
+sudo passwd ann
+
+After I have the ann account created, I can install heroku into the ann account:
+
+ssh -AY ann@localhost
+cd ~
+wget https://cli-assets.heroku.com/heroku-cli/channels/stable/heroku-cli-linux-x64.tar.gz -O heroku.tar.gz
+tar -xvzf heroku.tar.gz
+ln -s heroku-cli*linux-x64 heroku
+
+echo 'export PATH=${HOME}/heroku/bin:$PATH' >> ~/.bashrc
+bash
+heroku auth:login
+heroku status
+</code>

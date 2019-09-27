@@ -1,0 +1,260 @@
+<code class='python'>
+# class08mE.py
+
+# This script should help me do the lab of class08.
+# Ref:
+# http://www.tsds4.us/cclasses/class08#lab
+
+# Demo:
+# python class08m.py
+
+# 160803, blb: attempt to fold as much as possible into pandas
+
+import pandas as pd
+import numpy  as np
+import datetime
+from pandas import Series
+import pdb
+import matplotlib.pyplot as plt
+# remove the following if running in iPython:
+pd.options.display.width = None
+
+
+## might add logic later to check for a local data file
+datafile = "http://www.spy611.com/csv/allpredictions.csv"
+
+## load "pre-cooked" data to get 'prob_lr'
+allpredictions_df = pd.read_csv(datafile, index_col='cdate', parse_dates=['cdate'])
+
+## copy it to a new working dataframe, then remove the original
+## -- index 'cdate' is automatically included
+df = allpredictions_df.copy()[['cp','prob_lr']]
+del allpredictions_df
+
+## shift to calculate and populate a DataFrame column for 'pctlead'
+df['pctlead'] = 100.0 * (df.shift(-1).cp - df.cp) /  df.cp
+
+## signed closing price deltas, in new columns -- early to anticipate row slicing later
+df['cp_delta'] = df.cp - df.shift(1).cp
+## Extra credit
+df['lead'] = df.shift(-1).cp_delta
+
+### Extra credit:
+## Do the shift-and-fill for pctlag offsets of 1, 2, 4, 8, 16
+## -- we will have 'NaN' for the first n="offset" values, so start with
+## -- an early date and slice if clean edges are important
+##for offset in [1, 2, 4, 8, 16]:
+##    col_name = "pctlag" + str(offset)
+##    df[col_name] = 100.0 * (df.cp - df.shift(offset).cp) /  df.shift(offset).cp
+
+#
+# Create DataFrame column named accuracy and fill it
+# ####################################################
+
+## Make a true copy...not strictly needed
+dfa = df.copy()
+# I should initialize accuracy-column to be 'unknown':
+dfa['accuracy'] = 'unknown'
+
+## Predicates, flag logic, fill
+# Create a predicate to give me all positive predictions:
+posp_sr = (dfa.prob_lr >= 0.5)
+
+# Create a predicate to give me all positive pctlead values
+posl_sr = (dfa.pctlead >= 0.0)
+
+# I should get True Positives
+tp_sr = posp_sr & posl_sr
+
+# I should get True Negatives
+tn_sr = (-posp_sr) & (-posl_sr)
+
+# I should get False Positives
+fp_sr = posp_sr & (-posl_sr)
+
+# I should get False Negatives
+fn_sr = (-posp_sr) & posl_sr
+
+# I should copy accuracy indicators into DataFrame:
+dfa.loc[tp_sr,'accuracy'] = 'True Positive'
+dfa.loc[tn_sr,'accuracy'] = 'True Negative'
+dfa.loc[fp_sr,'accuracy'] = 'False Positive'
+dfa.loc[fn_sr,'accuracy'] = 'False Negative'
+
+# The unknowns should be known now:
+if 'unknown' in list(dfa['accuracy']):
+  print("Accuracy column still has an 'unknown'!")
+
+# I should look at it:
+print("\nWith (lr) 'accuracy':")
+print(dfa.tail(22))
+
+#
+# Create DataFrame column named effectiveness and fill it
+# #######################################################
+
+dfe = dfa.copy()
+
+## Predicates, flag logic, fill
+# Main idea here; use or-operator to collect True predictions:
+true_sr = (tp_sr | tn_sr)
+
+# Convert True predictions into a list of +1 or -1 values:
+true_is1_l = [ 1 if tf else -1 for tf in true_sr ]
+
+# It is effective if true and abs(pctlead) is large:
+# I should add it to the DF so I can see it:
+dfe['effectiveness'] = true_is1_l * dfe.pctlead.abs()
+
+print("\nWith (lr) 'effectiveness':")
+print(dfe.tail(22))
+
+#
+# Create DataFrame column named longonly_accuracy and fill it
+# #############################################################
+
+dfloa = dfe.copy()
+
+## straight into the DataFrame
+dfloa['longonly_accuracy'] = ['True Positive' if pl > 0.0 else 'False Positive' for pl in list(dfloa.pctlead) ]
+
+print("\nWith 'longonly_accuracy':")
+print(dfloa.tail(22))
+
+#
+# Create DataFrame column named longonly_effectiveness and fill it
+# ################################################################
+
+dfloe = dfloa.copy()
+
+dfloe['longonly_effectiveness'] = dfloe.pctlead
+
+## Edge cleaning:  flag latest day (with NaN pctlead & effectives) non-values
+dfloe.loc[dfloe.index[-1:], ['accuracy','longonly_accuracy']] = "Too_Soon"
+
+print("\nWith 'longonly_effectiveness':")
+print(dfloe.tail(22))
+
+#
+#  For 2016, report on aggregated Accuracy
+# #################################################################
+
+# I should start this effort by creating a DF from 2016 data.
+## NB: Index is type == datetime; dates are inclusive for truncate method
+onorafter_date = datetime.datetime(2016, 1, 1)
+onorbefore_date= datetime.datetime(2016, 12, 31)
+dfaa = dfloe.truncate(onorafter_date, onorbefore_date)
+
+# For long-only, I should count all the true-positive predictions:
+# I should aggregate:
+## Use 'value_counts' to aggregate--normalize gives us the percentage of the total non-NaNs
+lo_agg_sr = Series.value_counts(dfaa.longonly_accuracy, normalize=True)
+lo_agg_acc = lo_agg_sr['True Positive']
+
+print('\nFor 2016, Aggregated Long-Only Accuracy is: %.2f %s' % ((100 * lo_agg_acc), "%"))
+
+# For LR, I should count all the true-positive and true-negative predictions:
+lr_agg_sr = Series.value_counts(dfaa.accuracy, normalize=True)
+lr_agg_acc_tp = lr_agg_sr['True Positive']
+lr_agg_acc_tn = lr_agg_sr['True Negative']
+lr_agg_acc = lr_agg_acc_tp + lr_agg_acc_tn
+
+print('\nFor 2016, Aggregated Logistic Regression Accuracy is: %.2f %s' % ((100 * lr_agg_acc), "%"))
+
+# For LR, I should count the positive predictions:
+lr_posp_sr = (dfaa.prob_lr >= 0.5)
+## "normalize=True" gets us percentage decimals
+lr_posp_agg_sr = Series.value_counts(lr_posp_sr, normalize=True)
+lr_posp_acc = lr_posp_agg_sr[True]
+
+print('\nFor 2016, Logistic Regression issued Positive Predictions: %.2f %s' % ((100 * lr_posp_acc), "%"))
+
+# For LR, I should display the confusion matrix:
+## just counts, not percentages of non-NaN
+lr_cm_sr = Series.value_counts(dfaa.accuracy)
+print("\nConfusion Matrix values:")
+print(lr_cm_sr)
+
+lr_tp_i = lr_cm_sr['True Positive']
+lr_tn_i = lr_cm_sr['True Negative']
+lr_fp_i = lr_cm_sr['False Positive']
+lr_fn_i = lr_cm_sr['False Negative']
+
+print('For 2016, Logistic Regression Confusion Matrix:')
+print('True Positives Count: '  + str(lr_tp_i) + '|' + 'False Positives Count: ' + str(lr_fp_i))
+print('False Negatives Count: ' + str(lr_fn_i) + '|' + 'True Negatives Count: '  + str(lr_tn_i))
+
+# For 2016, report on aggregated Effectiveness
+# #################################################################
+# I report by computing min, max, mean, median, and sum.
+# I prefer to use sum to compare Long-Only to Logistic Regression.
+
+print('2016 Long Only Aggregated Effectiveness:')
+print(dfaa.longonly_effectiveness.describe())
+
+print('2016 Logistic Regression Aggregated Effectiveness:')
+print(dfaa.effectiveness.describe())
+
+print('2016 Long Only Effectiveness Sum:')
+print(dfaa.sum().longonly_effectiveness)
+
+print('2016 Logistic Regression Effectiveness Sum:')
+print(dfaa.sum().effectiveness)
+
+#
+# For 2016, Build Blue-Green Visualization for Logistic Regression
+###############################################################################
+
+# I should get a list of dates:
+## The dfaa index IS the date series
+
+len_i = len(dfaa.cp)
+
+# I should get list of cp to help build blue line:
+## dfaa.cp IS the "long" blue line
+
+## See "cp_delta" and "lead" above--included in 2016 date slicing
+
+# I should build the green data; it should start at same place as blue data:
+## forcefully initialize list for accumulated LR values
+green_l = [dfaa.cp[0]]
+
+# Integer navigator.
+row_i = 0
+## iteration allows stepping over the first row (difficult in pandas)
+while row_i &lt; len_i-1:
+    # I should track where I am.
+    ## don't calculate on 0th row
+    row_i += 1
+    # I should track blue_line delta:
+    ## remove "abs" below to have it look like Dan's original graph
+    blue_delt_f = abs(dfaa.cp[row_i] - dfaa.cp[row_i-1])
+    # I should add to the green line:
+    if dfaa.effectiveness[row_i-1] > 0 :
+        green_l.append( green_l[row_i-1] + blue_delt_f )
+    else:
+        green_l.append( green_l[row_i-1] - blue_delt_f )
+
+if not len(green_l) == len_i :
+    print("\n##### Warning:  Aggregate length mis-match for LR and Long.")
+
+## store LR effectiveness aggregation
+dfaa['lr_agg_green'] = green_l
+
+print("\nWith logistic regression (lr) aggregation:")
+print(dfaa.head(22))
+
+## make a dataframe view specifically for plotting
+plotme_df = dfaa.copy()[['cp','lr_agg_green']]
+## with label-ready column names
+plotme_df.columns = ['long_aggr', 'lr_aggr']
+
+print("\nPlot DF view:")
+print(plotme_df.head(22))
+
+# With matplotlib, I only need a few lines of syntax to plot a timeseries:
+## use pandas wrapper to plot from the df
+plotme_df.plot.line(title="Long vs. Logistic Regression")
+plt.show()
+
+</code>

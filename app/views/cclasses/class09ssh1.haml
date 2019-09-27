@@ -1,0 +1,30 @@
+%h2 Class09 Lab Answer:
+%h2 Create ssh-key-pair
+
+%p This was easy.
+
+%p If you already have an ssh-key, you don't need a new one.
+
+%p I use a simple shell command to create a new key (actually it is a pair of keys).
+
+.syntax
+  %pre
+    %code.bash ssh-keygen -t rsa
+
+%p When it asks me for a passphrase, I just press the enter-key twice.
+
+%p The last time I created an ssh-key-pair, I saw this:
+
+.syntax
+  %pre
+    =render 'class09d012'
+
+%p The file, ~/.ssh/id_rsa.pub, is a file I share with the public (in this case, DigitalOcean).
+
+%p It is like the lock on your car-door; it is exposed to the public.
+
+%p Anyone who has the private-key can unlock it.
+
+%p
+  %a(href='class09#lab')
+    Class09 Lab

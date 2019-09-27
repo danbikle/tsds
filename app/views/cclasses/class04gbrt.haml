@@ -1,0 +1,98 @@
+%h2 Class04 Lab Answer:
+%h2 Write a script which demonstrates GBRT.
+
+%p I start by creating the shell script listed below:
+
+.syntax
+  %pre
+    =render 'class04gbrt10'
+
+%p The above shell script depends on Python scripts.
+
+%p So, I wrote them next:
+
+.syntax
+  %pre
+    =render 'class04gbrt11'
+
+%p This is the second Python script in the shell script:
+
+.syntax
+  %pre
+    =render 'class04gbrt12'
+
+%p This is the third Python script in the shell script:
+
+.syntax
+  %pre
+    =render 'class04gbrt13'
+
+%p After I wrote the above scripts, I ran gbrt10.bash.
+
+%p I saw this:
+
+.syntax
+  %pre
+    =render 'class04gbrt14'
+
+%p
+  For the data and features I picked,
+  it appears that Logistic-Regression is more effective than GBRT
+  which is more effective than Linear-Regression.
+%p Also the above script generates prediction visualizations of effectiveness.
+
+%p I can see from the plots below that the GBRT model has a strong bullish bias.
+
+%p Often it goes many days issuing only bullish predictions:
+
+%hr/
+%img(src='/class04/rgb2000.png')
+%hr/
+%img(src='/class04/rgb2001.png')
+%hr/
+%img(src='/class04/rgb2002.png')
+%hr/
+%img(src='/class04/rgb2003.png')
+%hr/
+%img(src='/class04/rgb2004.png')
+%hr/
+%img(src='/class04/rgb2005.png')
+%hr/
+%img(src='/class04/rgb2006.png')
+%hr/
+%img(src='/class04/rgb2007.png')
+%hr/
+%img(src='/class04/rgb2008.png')
+%hr/
+%img(src='/class04/rgb2009.png')
+%hr/
+%img(src='/class04/rgb2010.png')
+%hr/
+%img(src='/class04/rgb2011.png')
+%hr/
+%img(src='/class04/rgb2012.png')
+%hr/
+%img(src='/class04/rgb2013.png')
+%hr/
+%img(src='/class04/rgb2014.png')
+%hr/
+%img(src='/class04/rgb2015.png')
+%hr/
+%img(src='/class04/rgb2016.png')
+%hr/
+%img(src='/class04/rgb2017.png')
+%hr/
+
+%p The strong bullish bias of the GBRT model often matches the bullish bias of the Long-Only model.
+
+%p This means that for some years, the GBRT line follows the Long-Only line exactly.
+
+%p When this happens the Long-Only line cannot be seen.
+
+%p Perhaps one way to work-around this bug is to add a small delta to the Long-Only plot values.
+
+%p Then the Long-Only line would move up by a pixel or two and then become visible.
+
+%p
+  %a(href='class04#lab')
+    Class04 Lab

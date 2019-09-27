@@ -1,0 +1,14 @@
+<code class='bash'>
+cd ~
+rm -rf heroku heroku-client.tgz heroku-client      heroku-linux-amd64.tar.gz
+wget https://cli-assets.heroku.com/branches/stable/heroku-linux-amd64.tar.gz
+tar zxf heroku-linux-amd64.tar.gz
+echo 'export PATH=${HOME}/heroku/bin:$PATH' >> ~/.bashrc
+bash
+which heroku
+heroku auth:login
+heroku status
+cd ~/spy611v2
+heroku create spy611x2016
+git push heroku master
+</code>

@@ -1,0 +1,46 @@
+%h2 Class04 Lab Answer:
+%h2 Write a script which demonstrates that scikit-learn is installed.
+
+%p I did this lab by using Google to look for an example of scikit-learn.
+
+%p Google sent me here:
+
+%p
+  %a(href='http://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html' target='x')
+    http://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html
+  
+
+%p The script below will fail if scikit-learn is not installed:
+
+.syntax
+  %pre
+    =render 'class04sklearn_is_installed1'
+
+%p I ran the above script and saw this:
+
+.syntax
+  %pre
+    =render 'class04sklearn_is_installed2'
+
+%p Then this visualization appeared on my screen:
+
+%img(src='/class04/sklearn_is_installed.png')
+
+%p I understand the above visualization with the following ideas:
+%ul
+  %li We have 10 ML algorithms: Nearest Neighbors, Linear SVM, RBF SVM, etc ...
+  %li The dots are observations.
+  %li We have two classes of dots: red and blue.
+  %li We have three types of dot patterns: Red-Upper-Left, Red-Outside, Red-Right
+  %li The algorithms learn from the dots.
+  %li After algorithms learn, they can predict.
+  %li The red  area shows where new, unknown dots are predicted to be red.
+  %li The blue area shows where new, unknown dots are predicted to be blue.
+  %li The white area shows where new, unknown dots are predicted to be unknown.
+  %li Some algorithms have much variance: RBF SVM, Gaussian Process
+  %li Some algorithms have less variance (more bias): Decision Tree, Linear SVM
+  %li More colored area means more bias.
+  
+%p
+  %a(href='class04#lab')
+    Class04 Lab
